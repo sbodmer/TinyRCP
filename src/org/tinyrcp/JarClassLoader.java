@@ -171,7 +171,6 @@ public class JarClassLoader extends URLClassLoader {
     //**************************************************************************
     public static void main(String args[]) {
         // System.out.println("(M) Default java.protocol.handler.pkgs:"+System.getProperty("java.protocol.handler.pkgs"));
-        // System.setProperty("java.protocol.handler.pkgs","lsimedia.loaders");
         // System.out.println("(M) New java.protocol.handler.pkgs:"+System.getProperty("java.protocol.handler.pkgs"));
         System.setProperty("java.security.debug", "all");
         System.setProperty("java.net.debug", "all");
