@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MultiProperties xmlns="hu.skzs.multiproperties">
+    <Version>1.3</Version>
+    <Name>ML</Name>
+    <Description/>
+    <Handler>Java Properties Handler</Handler>
+    <Columns>
+        <Key>
+            <Width>150</Width>
+        </Key>
+        <Column>
+            <Width>161</Width>
+            <Name>(en)</Name>
+            <Description/>
+            <HandlerConfiguration>./Desk.properties|false|true|true|false</HandlerConfiguration>
+        </Column>
+        <Column>
+            <Width>182</Width>
+            <Name>fr</Name>
+            <Description/>
+            <HandlerConfiguration>./Desk_fr.properties|false|true|true|false</HandlerConfiguration>
+        </Column>
+    </Columns>
+    <Records>
+        <Property>
+            <Name>factory_name</Name>
+            <Description/>
+            <Disabled>false</Disabled>
+            <MultiLine>true</MultiLine>
+            <DefaultValue>Desktop</DefaultValue>
+            <Value disabled="true" final="false"/>
+            <Value disabled="true" final="false"/>
+        </Property>
+        <Property>
+            <Name>opt_framename</Name>
+            <Description/>
+            <Disabled>false</Disabled>
+            <MultiLine>true</MultiLine>
+            <DefaultValue>Frame name</DefaultValue>
+            <Value disabled="true" final="false"/>
+            <Value disabled="false" final="false">Nom de la fenêtre</Value>
+        </Property>
+    </Records>
+</MultiProperties>
