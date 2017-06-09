@@ -1,7 +1,7 @@
 # TinyRCP
 Small GUI Java framework to create simple visual interfaces
 
-##Architecture
+## Architecture
 The framework is complelty modular and plugin based.
 
 Each component is stored in a jar file with a specific manifest entry
@@ -12,7 +12,7 @@ during the app creation
     {cwd}/lib/ext
 
 ## Release
-Alpha quality for the moment...
+Work in progress, alpha quality for the moment...
 
 ## Features
 TODO
