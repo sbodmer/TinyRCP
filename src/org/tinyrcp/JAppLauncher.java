@@ -21,6 +21,7 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
      */
     public JAppLauncher(String args[]) {
         this.args = args;
+        
         initComponents();
         
 
@@ -75,6 +76,7 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         PB_Progress = new javax.swing.JProgressBar();
         jPanel2 = new javax.swing.JPanel();
@@ -84,6 +86,9 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
         setAlwaysOnTop(true);
         setUndecorated(true);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         PB_Progress.setPreferredSize(new java.awt.Dimension(150, 26));
@@ -91,12 +96,14 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
         PB_Progress.setStringPainted(true);
         jPanel1.add(PB_Progress, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+        jPanel3.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
         jLabel1.setText("Launching application");
         jPanel2.add(jLabel1);
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+        jPanel3.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(400, 53));
         setLocationRelativeTo(null);
@@ -172,6 +179,7 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
     protected javax.swing.JLabel jLabel1;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;
+    protected javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 
 }

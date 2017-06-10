@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javafx.scene.control.Tab;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
 import org.tinyrcp.App;
 import org.tinyrcp.TinyFactory;
 import org.tinyrcp.TinyPlugin;
@@ -80,7 +81,12 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
         this.app = app;
 
         MN_Delete.addActionListener(this);
-
+        
+        MN_Top.addActionListener(this);
+        MN_Left.addActionListener(this);
+        MN_Right.addActionListener(this);
+        MN_Bottom.addActionListener(this);
+        
         PU_Factories.add(app.createFactoryMenus("Panels", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_PANEL,this),0);
         PU_Factories.add(app.createFactoryMenus("Containers", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_CONTAINER,this),1);
         TAB_Tabs.addMouseListener(this);
@@ -90,6 +96,8 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
     public void configure(Element config) {
         if (config == null) return;
 
+        TAB_Tabs.setTabPlacement(config.getAttribute("orientation").equals("")?JTabbedPane.TOP:Integer.parseInt(config.getAttribute("orientation")));
+        
         NodeList nl = config.getChildNodes();
         for (int i = 0; i < nl.getLength(); i++) {
             if (nl.item(i).getNodeName().equals("Tab")) {
@@ -122,6 +130,7 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
     public void saveConfig(Element config) {
         if (config == null) return;
         
+        config.setAttribute("orientation", ""+TAB_Tabs.getTabPlacement());
         for (int i=0;i<TAB_Tabs.getTabCount();i++) {
             JComponent jcomp = (JComponent) TAB_Tabs.getComponentAt(i);
             TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
@@ -194,6 +203,18 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
             TAB_Tabs.remove(jcomp);
             p.cleanup();
 
+        } else if (e.getActionCommand().equals("top")) {
+            TAB_Tabs.setTabPlacement(JTabbedPane.TOP);
+            
+        } else if (e.getActionCommand().equals("left")) {
+            TAB_Tabs.setTabPlacement(JTabbedPane.LEFT);
+            
+        } else if (e.getActionCommand().equals("right")) {
+            TAB_Tabs.setTabPlacement(JTabbedPane.RIGHT);
+            
+        } else if (e.getActionCommand().equals("bottom")) {
+            TAB_Tabs.setTabPlacement(JTabbedPane.BOTTOM);
+            
         }
     }
 
@@ -209,6 +230,13 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
         PU_Factories = new javax.swing.JPopupMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         MN_Delete = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        MN_Orientation = new javax.swing.JMenu();
+        MN_Top = new javax.swing.JRadioButtonMenuItem();
+        MN_Left = new javax.swing.JRadioButtonMenuItem();
+        MN_Right = new javax.swing.JRadioButtonMenuItem();
+        MN_Bottom = new javax.swing.JRadioButtonMenuItem();
+        BTG_TabOrientation = new javax.swing.ButtonGroup();
         TAB_Tabs = new javax.swing.JTabbedPane();
 
         PU_Factories.add(jSeparator1);
@@ -216,6 +244,32 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
         MN_Delete.setText("Delete");
         MN_Delete.setActionCommand("delete");
         PU_Factories.add(MN_Delete);
+        PU_Factories.add(jSeparator2);
+
+        MN_Orientation.setText("Orientation");
+
+        BTG_TabOrientation.add(MN_Top);
+        MN_Top.setSelected(true);
+        MN_Top.setText("Top");
+        MN_Top.setActionCommand("top");
+        MN_Orientation.add(MN_Top);
+
+        BTG_TabOrientation.add(MN_Left);
+        MN_Left.setText("Left");
+        MN_Left.setActionCommand("left");
+        MN_Orientation.add(MN_Left);
+
+        BTG_TabOrientation.add(MN_Right);
+        MN_Right.setText("Right");
+        MN_Right.setActionCommand("right");
+        MN_Orientation.add(MN_Right);
+
+        BTG_TabOrientation.add(MN_Bottom);
+        MN_Bottom.setText("Bottom");
+        MN_Bottom.setActionCommand("bottom");
+        MN_Orientation.add(MN_Bottom);
+
+        PU_Factories.add(MN_Orientation);
 
         setLayout(new java.awt.BorderLayout());
         add(TAB_Tabs, java.awt.BorderLayout.CENTER);
@@ -223,10 +277,17 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    protected javax.swing.ButtonGroup BTG_TabOrientation;
+    protected javax.swing.JRadioButtonMenuItem MN_Bottom;
     protected javax.swing.JMenuItem MN_Delete;
+    protected javax.swing.JRadioButtonMenuItem MN_Left;
+    protected javax.swing.JMenu MN_Orientation;
+    protected javax.swing.JRadioButtonMenuItem MN_Right;
+    protected javax.swing.JRadioButtonMenuItem MN_Top;
     protected javax.swing.JPopupMenu PU_Factories;
     protected javax.swing.JTabbedPane TAB_Tabs;
     protected javax.swing.JPopupMenu.Separator jSeparator1;
+    protected javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
 }

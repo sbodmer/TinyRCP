@@ -11,7 +11,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionListener;
 import java.io.File;
-import static java.lang.Thread.sleep;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,11 +20,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.tinyrcp.desk.JDeskFactory;
 import org.tinyrcp.tabs.JTabsFactory;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 /**
  * Application resources singleton<p>
@@ -52,6 +56,11 @@ public class App {
     protected HashMap<String, ArrayList<TinyFactory>> factories = new HashMap<>();
 
     /**
+     * XML builder
+     */
+    protected DocumentBuilder builder = null;
+
+    /**
      * Instantiate all the factories here, the configuration of the factories is
      * done late<p>
      *
@@ -63,6 +72,16 @@ public class App {
         this.appName = appName;
         appFolder = new File(System.getProperty("user.home"), "." + appName);
         appFolder.getParentFile().mkdirs();
+
+        //--- Create the xml builder
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
 
         //--- Insert built in factories
         ArrayList<TinyFactory> list = new ArrayList<>();
@@ -132,6 +151,16 @@ public class App {
     }
 
     /**
+     * Returns the shared document builder instance<p>
+     * 
+     * @param in
+     * @return
+     */
+    public DocumentBuilder getDocumentBuilder() {
+        return builder;
+    }
+
+    /**
      * Create the menu which lists the plugin for the family<p>
      *
      * The passed listener will received an event when item is selected
@@ -153,7 +182,7 @@ public class App {
             TinyFactory factory = facs.get(i);
 
             if ((family != null) && !factory.getFactoryFamily().equals(family)) continue;
-            
+
             //--- create menu
             JMenuItem jitem = new JMenuItem(factory.getFactoryName());
             jitem.setIcon(factory.getFactoryIcon(TinyFactory.ICON_SIZE_NORMAL));
@@ -214,22 +243,23 @@ public class App {
 
     /**
      * Store the config for each factory
-     * 
-     * @param config 
+     *
+     * @param config
      */
     public void store(Element config) {
         if (config == null) return;
-        
+
         ArrayList<TinyFactory> facs = getFactories(null);
-        for (int i=0;i<facs.size();i++) {
+        for (int i = 0; i < facs.size(); i++) {
             TinyFactory fac = facs.get(i);
             Element e = config.getOwnerDocument().createElement("TinyFactory");
             e.setAttribute("class", fac.getClass().getName());
             fac.store(e);
             config.appendChild(e);
         }
-        
+
     }
+
     public void destroy() {
         ArrayList<TinyFactory> facs = getFactories(null);
         for (int i = 0; i < facs.size(); i++) facs.get(i).destroy();
@@ -253,7 +283,7 @@ public class App {
      * Return the factory instance for the given factory class name (if present)
      *
      * If the factory is not found, null is returned<p>
-     * 
+     *
      * @param classname
      * @param category
      * @return

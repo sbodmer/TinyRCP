@@ -16,8 +16,56 @@
             <Property name="actionCommand" type="java.lang.String" value="delete"/>
           </Properties>
         </MenuItem>
+        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+        </Component>
+        <Menu class="javax.swing.JMenu" name="MN_Orientation">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Orientation"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Top">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="BTG_TabOrientation"/>
+                </Property>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Top"/>
+                <Property name="actionCommand" type="java.lang.String" value="top"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Left">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="BTG_TabOrientation"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Left"/>
+                <Property name="actionCommand" type="java.lang.String" value="left"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Right">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="BTG_TabOrientation"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Right"/>
+                <Property name="actionCommand" type="java.lang.String" value="right"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Bottom">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="BTG_TabOrientation"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Bottom"/>
+                <Property name="actionCommand" type="java.lang.String" value="bottom"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.ButtonGroup" name="BTG_TabOrientation">
+    </Component>
   </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
