@@ -144,7 +144,7 @@ public class JarClassLoader extends URLClassLoader {
      return super.getResource(name);
      }
      */
- /*
+    /*
     public InputStream getResourceAsStream(String name) {
         URL urls[] = getURLs();
         for (int i=0;i<urls.length;i++) System.out.println("URL["+i+"]="+urls[i]);
@@ -155,7 +155,7 @@ public class JarClassLoader extends URLClassLoader {
     @Override
     public Class findClass(String classname) throws ClassNotFoundException {
         Class cl = super.findClass(classname);
-        System.out.println(">>>> Looking for "+classname+" FOUND:"+cl);
+        // System.out.println(">>>> Looking for "+classname+" FOUND:"+cl);
         return cl;
     }
     
