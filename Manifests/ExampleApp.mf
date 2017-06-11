@@ -1,0 +1,3 @@
+Main-Class: app.ExampleApp
+Class-Path: TinyRCP.jar
+

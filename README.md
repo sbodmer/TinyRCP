@@ -1,40 +1,58 @@
 # TinyRCP
-Small GUI Java framework to create simple visual interfaces
+Small GUI Java framework to create simple visual interfaces.
 
 ## Architecture
 The framework is complelty modular and plugin based.
 
-Each component is stored in a jar file with a specific manifest entry
+Each component is stored in a jar file with a specific manifest entry.
 
 The components are recursively loaded from file system in the default folders
 during the app creation
 
-    {cwd}/lib/ext
-
-## Release
-Work in progress, alpha quality for the moment...
+    {project}/lib/ext
 
 ## Features
 TODO
 
+## Release
+Work in progress...
+
+## Building
+The project is a Netbeans project, for manual compiling, use the ant build.xml
+
+    cd {project}
+    ant jar
+
+To run the example application
+
+    cd dist
+    java -jar ExampleApp.jar
+
+
 # Components
 The built in components are
 
-- Containers (tabs, desktop)
-- ... 
+* Containers (tabs, desktop)
+* ... 
 
-# Devlopers guide
-The plugins and main application frame are all stored in jar archives as plugin
+# Developers guide
+The components and main application frame are all stored in jar archives as plugins
 in a defined folder on your file system.
 
 The framework will load dynamically the plugins at the boot process
+
+Check the example application files for more informations
+
+    org/tinyrcp/example
+    app/
 
 ## Application boot
 The entry point of your app should be loaded by the default class loader (for
 example the Java Web Start class loader) and stored in a separated jar which
 defines the common manifest entry
 
-    Main-Class
+    Main-Class: app.ExampleApp
+    Class-Path: TinyRCP.jar
 
 The framework will start the main entry point and do some initialization and
 finally will start the main application frame
@@ -47,7 +65,8 @@ The boot process consist of
 * The framework boot method is called
 * The boot process will call the main() method of the app frame
 
-Here is an example of your main entry point
+Here is an example of your main entry point (which is loaded by the system
+class loader)
 
     public class ExampleApp {
 

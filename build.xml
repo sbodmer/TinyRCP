@@ -71,23 +71,42 @@
 
     -->
     <target name="-post-jar" description="Create all jars">
-        <!--
-        <antcall target="create_jars"/>
-        -->
+        <antcall target="create_example"/>
+        
         <!--
         <antcall target="copy_libs"/>
         -->
     </target>
     
+    <!--
     <target name="create_jars">
         <echo message="Creating stand alone jars and main libraries"/>
         
-        <echo message="TinyRCP] Tiny Rich Client Platform libs"/>
+        <echo message="[TinyRCP] Tiny Rich Client Platform libs"/>
         <mkdir dir="${dist.dir}/lib"/>
         <jar destfile="${dist.dir}/lib/tinyrcp.jar" manifest="Manifests/tinyrcp.mf">
             <fileset dir="${build.dir}/classes" includes="org/tinyrcp/**"/>
-        </jar>
+        </jar>        
+    </target>
+    -->
+
+    <target name="create_example">
+        <echo message="Creating Example app"/>
         
+        <echo message="[TinyRCP] Create Tiny Rich Client Platform example app"/>
+        <jar destfile="${dist.dir}/ExampleApp.jar" manifest="Manifests/ExampleApp.mf">
+            <fileset dir="${build.dir}/classes" includes="app/**"/>
+        </jar>
+        <mkdir dir="${dist.dir}/lib/ext"/>
+        <jar destfile="${dist.dir}/lib/ext/dummy.jar" manifest="Manifests/plugins/dummy.mf">
+            <fileset dir="${build.dir}/classes" includes="org/tinyrcp/example/dummy/**"/>
+        </jar>
+        <mkdir dir="${dist.dir}/lib/ext"/>
+        <jar destfile="${dist.dir}/lib/ext/example.jar" manifest="Manifests/plugins/example.mf">
+            <fileset dir="${build.dir}/classes" includes="org/tinyrcp/example/*.class"/>
+            <fileset dir="${build.dir}/classes" includes="org/tinyrcp/example/Resources/**"/>
+            
+        </jar>
         
     </target>
     

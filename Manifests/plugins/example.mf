@@ -1,0 +1,2 @@
+Tiny-Main-Class: org.tinyrcp.example.JExample
+

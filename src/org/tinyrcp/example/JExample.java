@@ -36,7 +36,7 @@ import org.w3c.dom.NodeList;
  *
  * @author sbodmer
  */
-public class JExampleApp extends javax.swing.JFrame implements ActionListener {
+public class JExample extends javax.swing.JFrame implements ActionListener {
 
     App app = null;
 
@@ -50,7 +50,7 @@ public class JExampleApp extends javax.swing.JFrame implements ActionListener {
     /**
      * Creates new form JWorldWindEarth
      */
-    public JExampleApp(App app) {
+    public JExample(App app) {
         this.app = app;
 
         initComponents();
@@ -75,7 +75,7 @@ public class JExampleApp extends javax.swing.JFrame implements ActionListener {
             try {
                 file.getParentFile().mkdirs();
                 FileOutputStream fout = new FileOutputStream(file);
-                InputStream in = getClass().getResourceAsStream("/org/worldwindearth/Resources/Configs/WorldWindEarth.xml");
+                InputStream in = getClass().getResourceAsStream("/org/tinyrcp/example/Resources/Configs/ExampleApp.xml");
                 byte buffer[] = new byte[4096];
                 while (true) {
                     int read = in.read(buffer);
@@ -154,7 +154,7 @@ public class JExampleApp extends javax.swing.JFrame implements ActionListener {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("WorlWindEarth");
+        setTitle("TinyRCP Example App");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -217,7 +217,7 @@ public class JExampleApp extends javax.swing.JFrame implements ActionListener {
         try {
             //--- Create main config
             Document document = app.getDocumentBuilder().newDocument();
-            Element root = document.createElement("WorldWindEarth");
+            Element root = document.createElement("ExampleApp");
             root.setAttribute("x", "" + getX());
             root.setAttribute("y", "" + getY());
             root.setAttribute("width", "" + getWidth());
@@ -370,48 +370,14 @@ public class JExampleApp extends javax.swing.JFrame implements ActionListener {
                 } else {
                     loader = new JarClassLoader();
                     loader.addJar("lib/ext");
-                    loader.addJar(System.getProperty("user.home") + File.separator + ".WorldWindEarth");
-                }
-
-                //--- Set the default font
-                /*
-                Font font = new Font("Arial", Font.PLAIN, 11);
-                UIDefaults defaults = UIManager.getDefaults();
-                // defaults.put("InternalFrame.titleFont",font);
-                Enumeration keys = defaults.keys();
-                while (keys.hasMoreElements()) {
-                    Object key = keys.nextElement();
-                    if ((key instanceof String) && (((String) key).endsWith(".font"))) {
-                        defaults.put(key, font);
-                    }
-                }
-                 */
-                //--- Set worldwind configuration path
-                try {
-                    File config = new File(System.getProperty("user.home"), ".WorldWindEarth" + File.separatorChar + "worldwind.xml");
-                    config.getParentFile().mkdirs();
-                    FileOutputStream fout = new FileOutputStream(config);
-                    InputStream in = getClass().getResourceAsStream("/org/worldwindearth/Resources/Worldwind/worldwind.xml");
-                    byte buffer[] = new byte[4096];
-                    while (true) {
-                        int read = in.read(buffer);
-                        if (read == -1) break;
-                        fout.write(buffer, 0, read);
-                    }
-                    fout.close();
-
-                    System.setProperty("gov.nasa.worldwind.app.config.document", config.getPath());
-                    
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
 
                 //--- Prepare main resource singleton
-                App app = new App(loader, "WorldWindEarth");
+                App app = new App(loader, "TinyTCP Example App");
                 app.initialize();
                 
                 //--- Main frame
-                JExampleApp jframe = new JExampleApp(app);
+                JExample jframe = new JExample(app);
                 jframe.open();
 
             }

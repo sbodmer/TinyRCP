@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.tinyrcp.example;
+package app;
 
 import java.io.File;
 import org.tinyrcp.AppLauncher;

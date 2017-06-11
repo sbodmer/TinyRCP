@@ -1,3 +1,0 @@
-Tiny-Factory: org.tinyrcp.example.dummy.JDummyFactory
-Tiny-Main-Class: org.tinyrcp.example.dummy.ExampleApp
-
