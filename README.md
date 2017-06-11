@@ -1,5 +1,5 @@
 # TinyRCP
-Small GUI Java framework to create simple visual interfaces.
+Small GUI Java framework to create simple Swing visual interfaces.
 
 ## Architecture
 The framework is complelty modular and plugin based.
