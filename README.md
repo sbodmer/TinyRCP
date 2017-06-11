@@ -71,7 +71,7 @@ class loader)
     public class ExampleApp {
 
         /**
-         * Main entry point of the boot process
+         * Main entry point for the boot process
          *
          * @param args the command line arguments
          */
@@ -112,7 +112,7 @@ boot process
 ## Plugins
 To add a plugin simply create a jar files in the /lib/ext folder with the manifest entry
 
-    Tiny-Factory: {full qualified class name of the factory
+    Tiny-Factory: {full qualified class name of the factory}
 
 The class must implement the interface below
 
