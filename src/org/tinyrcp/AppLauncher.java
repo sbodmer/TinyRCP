@@ -105,29 +105,6 @@ public class AppLauncher {
                     }
                 }
 
-                /*
-                //--- Load configuration
-                File f = new File(app.getAppFolder(), "Config.xml");
-                Element config = null;
-                if (f.exists()) {
-                    try {
-                        FileInputStream in = new FileInputStream(f);
-
-                        //--- Parse config file
-                        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                        DocumentBuilder builder = factory.newDocumentBuilder();
-                        InputSource source = new InputSource(in);
-                        source.setEncoding("UTF-8");
-                        Document tmp = builder.parse(source);
-                        config = tmp.getDocumentElement();
-                        in.close();
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-
-                    }
-                }
-                 */
                 //--- Start the application
                 //--- Find all the main class
                 Iterator<Manifest> it = loader.getManifests().values().iterator();

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExampleApp x="100" y="100" width="1024" height="768">
+    <!-- Default configuration when started for the first time -->
+    <Main factory="org.tinyrcp.tabs.JTabsFactory">
+        <Tab factory="org.tinyrcp.example.dummy.JDummyFactory">
+        </Tab>
+    </Main>
+
+</WorldWindEarth>
