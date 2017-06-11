@@ -11,7 +11,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,11 +23,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.tinyrcp.desk.JDeskFactory;
 import org.tinyrcp.tabs.JTabsFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 /**
  * Application resources singleton<p>
@@ -64,10 +61,15 @@ public class App {
      * Instantiate all the factories here, the configuration of the factories is
      * done late<p>
      *
+     * If the manualFactories param is filled, then the passed classes are also
+     * created and added to the factories list<p>
+     *
      * @param loader
      * @param appName
+     * @param manualFactories The list of manual factories to add (or null if
+     * none), the array contains the full qualified class names
      */
-    public App(JarClassLoader loader, String appName) {
+    public App(JarClassLoader loader, String appName, ArrayList<String> manualFactories) {
         this.loader = loader;
         this.appName = appName;
         appFolder = new File(System.getProperty("user.home"), "." + appName);
@@ -89,8 +91,38 @@ public class App {
         list.add(new JDeskFactory());
         factories.put(TinyFactory.PLUGIN_CATEGORY_PANEL, list);
 
-        Iterator<Manifest> manifests = loader.getManifests().values().iterator();
+        //----------------------------------------------------------------------
+        //--- Prepare the manual factories
+        //----------------------------------------------------------------------
+        if (manualFactories != null) {
+            for (int i = 0; i < manualFactories.size(); i++) {
+                String cla = manualFactories.get(i);
+                try {
+                    Class cl = Class.forName(cla, true, loader);
+                    //--- Always empty constructor
+                    TinyFactory factory = (TinyFactory) cl.newInstance();
+                    list = factories.get(factory.getFactoryCategory());
+                    if (list == null) {
+                        list = new ArrayList<>();
+                        factories.put(factory.getFactoryCategory(), list);
+                    }
+                    list.add(factory);
+                    System.out.println("(I) Manual Tiny Factory instantiated [" + factory.getFactoryCategory() + "] " + factory.getFactoryName());
+                    System.out.flush();
+                    
+                } catch (Exception ex) {
+                    System.err.println("(E) Manual Tiny Factory " + cla + " :" + ex.getMessage());
+                    ex.printStackTrace();
 
+
+                }
+            }
+        }
+        
+        //----------------------------------------------------------------------
+        //--- Prepare dynamic loaded factories
+        //----------------------------------------------------------------------
+        Iterator<Manifest> manifests = loader.getManifests().values().iterator();
         //--- Prepare the classes to instantiate
         while (manifests.hasNext()) {
             //--- Do until the attribut was not found
@@ -113,19 +145,12 @@ public class App {
                             factories.put(factory.getFactoryCategory(), list);
                         }
                         list.add(factory);
-                        System.out.println("(I) Tiny-Plugin-Factory instantiated [" + factory.getFactoryCategory() + "] " + factory.getFactoryName());
+                        System.out.println("(I) Dynamic Tiny Factory instantiated [" + factory.getFactoryCategory() + "] " + factory.getFactoryName());
                         System.out.flush();
 
-                    } catch (ClassNotFoundException ex) {
-                        System.err.println("(E) Tiny-Plugin-Factory " + cla + " :" + ex.getMessage());
-                        ex.printStackTrace();
-
-                    } catch (NoClassDefFoundError ex) {
-                        System.err.println("(E) Tiny-Plugin-Factory " + cla + " :" + ex.getMessage());
-                        ex.printStackTrace();
-
+                    
                     } catch (Exception ex) {
-                        System.err.println("(E) Tiny-Plugin-Factory " + cla + " :" + ex.getMessage());
+                        System.err.println("(E) Dynamic Tiny Factory " + cla + " :" + ex.getMessage());
                         ex.printStackTrace();
 
                     }
@@ -152,7 +177,7 @@ public class App {
 
     /**
      * Returns the shared document builder instance<p>
-     * 
+     *
      * @param in
      * @return
      */
@@ -180,7 +205,6 @@ public class App {
         ArrayList<TinyFactory> facs = getFactories(category);
         for (int i = 0; i < facs.size(); i++) {
             TinyFactory factory = facs.get(i);
-
             if ((family != null) && !factory.getFactoryFamily().equals(family)) continue;
 
             //--- create menu
@@ -266,7 +290,9 @@ public class App {
     }
 
     /**
-     * Add a new factory to the correct category
+     * Add a new factory to the correct category<p>
+     * 
+     * The passed factory should be fully realized (inited and confiugured)<p>
      *
      * @param factory
      */
@@ -307,7 +333,7 @@ public class App {
      * @return
      */
     public ArrayList<TinyFactory> getFactories(String category) {
-        ArrayList<TinyFactory> fac = new ArrayList<TinyFactory>();
+        ArrayList<TinyFactory> fac = new ArrayList<>();
         if (category != null) {
             ArrayList<TinyFactory> tmp = factories.get(category);
             if (tmp != null) for (int i = 0; i < tmp.size(); i++) fac.add(tmp.get(i));

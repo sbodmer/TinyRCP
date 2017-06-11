@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
  * <PRE>
  * 1. Load the libraries jars in defined folder
  * 2. Start main class (defined as "Tiny-Main-Class" manifest attribute)
- * </PRE> 
- * 
+ * </PRE>
+ *
  * Will boot the application in it's own thread<p>
  *
  * Each step will be notified to the passed listener (not in the UID thread)
@@ -56,9 +56,19 @@ public class AppLauncher {
      * If the manifest entry was found, the class in instantiated and the main
      * method is called with the passed arguments<p>
      *
-     * @param listener
+     * For manual factory creation, pass the following arguments
+     * <PRE>
+     * -factory {full.qualified.factory.class}
+     * etc.
+     * -main {full.qualified.main.class}
+     * </PRE>
+     *
+     * @param listener The application boot listener for user feed back
+     * @param libs The folder to use for dynamic plugin loading
+     * @param args The main args to pass to application main frame
+     * @param appName The application name
      */
-    public static void boot(final AppLauncher.AppBootListener listener, final String libs[], String args[], String appName) {
+    public static void boot(final AppLauncher.AppBootListener listener, final String libs[], final String args[], final String appName) {
 
         Thread t = new Thread() {
             @Override
@@ -66,7 +76,6 @@ public class AppLauncher {
 
                 //--- Prepare the main resource singleton
                 JarClassLoader loader = new JarClassLoader();
-                App app = new App(loader, appName);
                 listener.appBootStarted();
 
                 //--- Start to load the libraries
@@ -114,21 +123,21 @@ public class AppLauncher {
                 while (it.hasNext()) {
                     //--- Find the main entry point
                     java.util.jar.Attributes attributes = it.next().getMainAttributes();
-                    String mainclass = attributes.getValue("Tiny-Main-Class");
-                    if (mainclass == null) continue;
+                    String mainClass = attributes.getValue("Tiny-Main-Class");
+                    if (mainClass == null) continue;
 
                     try {
                         //--- Create the instance of the main class
                         System.setSecurityManager(null);    //--- Disable custom classloader security (avoid the JavaAppletWindow text)
                         // Thread.currentThread().setContextClassLoader(loader);
-                        Class cl = Class.forName(mainclass, true, loader);
+                        Class cl = Class.forName(mainClass, true, loader);
                         Class cls[] = {String[].class};
                         Object params[] = {args};
                         Method method = cl.getDeclaredMethod("main", cls);
                         //--- Start application
                         mc = method.invoke(null, params);
                         break;
-                        
+
                     } catch (Exception ex) {
                         ex.printStackTrace();
                         JOptionPane.showMessageDialog(null, "Main class error : " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -140,6 +149,32 @@ public class AppLauncher {
                         System.exit(0);
                     }
 
+                }
+
+                //--------------------------------------------------------------
+                //--- If not found, try args one
+                //--------------------------------------------------------------
+                if (mc == null) {
+                    for (int i = 0; i < args.length; i++) {
+                        String arg = args[i];
+                        if (arg.equals("-main")) {
+                            try {
+                                System.setSecurityManager(null);    //--- Disable custom classloader security (avoid the JavaAppletWindow text)
+                                // Thread.currentThread().setContextClassLoader(loader);
+                                Class cl = Class.forName(args[i+1], true, loader);
+                                Class cls[] = {String[].class};
+                                Object params[] = {args};
+                                Method method = cl.getDeclaredMethod("main", cls);
+                                //--- Start application
+                                mc = method.invoke(null, params);
+                                break;
+                                
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+
+                            }
+                        }
+                    }
                 }
 
                 listener.appBootFinished(mc);

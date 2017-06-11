@@ -373,7 +373,7 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
                 }
 
                 //--- Prepare main resource singleton
-                App app = new App(loader, "TinyTCP Example App");
+                App app = new App(loader, "TinyTCP Example App", null);
                 app.initialize();
                 
                 //--- Main frame
