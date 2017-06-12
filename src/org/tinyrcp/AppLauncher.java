@@ -75,7 +75,7 @@ public class AppLauncher {
             public void run() {
 
                 //--- Prepare the main resource singleton
-                JarClassLoader loader = new JarClassLoader();
+                JarClassLoader loader = new JarClassLoader(getClass().getClassLoader());
                 listener.appBootStarted();
 
                 //--- Start to load the libraries
