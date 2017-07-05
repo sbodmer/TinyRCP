@@ -28,7 +28,7 @@ import javax.swing.JOptionPane;
  *
  * The libraries will be loaded and downloaded if url is a remote address<p>
  *
- * At the end, all jars will be search to find the manifes entry called
+ * At the end, all jars will be searched to find the manifest entry called
  * <PRE>
  * Tiny-Main-Class: {main class)
  * </PRE>
@@ -48,7 +48,7 @@ public class AppLauncher {
      *
      * The libraries will be loaded and downloaded if url is a remote address<p>
      *
-     * At the end, all jars will be search to find the manifes entry called
+     * At the end, all jars will be searched to find the manifest entry called
      * <PRE>
      * Tiny-Main-Class: {main class)
      * </PRE>
@@ -59,7 +59,8 @@ public class AppLauncher {
      * For manual factory creation, pass the following arguments
      * <PRE>
      * -factory {full.qualified.factory.class}
-     * etc.
+     * -factory {}
+     * 
      * -main {full.qualified.main.class}
      * </PRE>
      *

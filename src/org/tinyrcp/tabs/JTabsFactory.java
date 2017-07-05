@@ -16,7 +16,9 @@ import org.w3c.dom.Element;
  * @author sbodmer
  */
 public class JTabsFactory extends javax.swing.JPanel implements TinyFactory {
-
+    final String AUTHOR = "Stephan Bodmer (sbodmer@lsi-media.ch)";
+    final String VERSION = "1.0.0.0";
+    
     /**
      * Creates new form OSMBuildingsWWELayerPluginFactory
      */
@@ -41,46 +43,53 @@ public class JTabsFactory extends javax.swing.JPanel implements TinyFactory {
     public String getFactoryName() {
         return LB_Name.getText();
     }
-    
+
     @Override
     public String getFactoryDescription() {
         return LB_Description.getText();
     }
-    
+
     @Override
     public String getFactoryCategory() {
         return PLUGIN_CATEGORY_PANEL;
     }
-    
+
     @Override
     public String getFactoryFamily() {
         return PLUGIN_FAMILY_CONTAINER;
     }
-    
+
     @Override
     public void initialize(App app) {
         //---
     }
-    
+
     @Override
     public void configure(Element config) {
         //---
     }
-    
+
     @Override
     public void store(Element config) {
         //---
     }
-    
+
     @Override
     public void destroy() {
         //---
     }
-    
+
     @Override
     public Object getProperty(String property) {
+        if (property.equals(PROPERTY_AUTHOR)) {
+            return AUTHOR;
+
+        } else if (property.equals(PROPERTY_VERSION)) {
+            return VERSION;
+        }
         return null;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,15 +116,10 @@ public class JTabsFactory extends javax.swing.JPanel implements TinyFactory {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JLabel LB_Description;
     protected javax.swing.JLabel LB_Name;
     // End of variables declaration//GEN-END:variables
 
-    
-
-    
 }

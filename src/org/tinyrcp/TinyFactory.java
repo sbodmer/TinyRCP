@@ -42,7 +42,29 @@ public interface TinyFactory {
      *
      * Return null if none
      */
-    public static final String PROPERTY_LICENCE_TEXT = "licenceText";
+    public static final String PROPERTY_LICENCE_TEXT = "factoryLicenceText";
+    
+    /**
+     * The author<p>
+     * 
+     * String<p>
+     * 
+     * Read only<p>
+     * 
+     * return null if none
+     */
+    public static final String PROPERTY_AUTHOR = "factoryAuthor";
+    
+    /**
+     * The factory version<p>
+     * 
+     * String<p>
+     * 
+     * Read only<p>
+     * 
+     * return null if none
+     */
+    public static final String PROPERTY_VERSION = "factoryVersion";
     
     /**
      * Returns the factory icon as, if the wanted

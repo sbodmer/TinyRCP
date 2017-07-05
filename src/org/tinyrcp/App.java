@@ -58,6 +58,12 @@ public class App {
     protected DocumentBuilder builder = null;
 
     /**
+     * Store the factory origin file, the key is the factory, the value
+     * the jar containing the factory class
+     */
+    protected HashMap<TinyFactory, String> origin = new HashMap<>();
+    
+    /**
      * Instantiate all the factories here, the configuration of the factories is
      * done late<p>
      *
@@ -122,11 +128,13 @@ public class App {
         //----------------------------------------------------------------------
         //--- Prepare dynamic loaded factories
         //----------------------------------------------------------------------
-        Iterator<Manifest> manifests = loader.getManifests().values().iterator();
+        Iterator<String> paths = loader.getManifests().keySet().iterator();
         //--- Prepare the classes to instantiate
-        while (manifests.hasNext()) {
+        while (paths.hasNext()) {
+            String path = paths.next();
+            
             //--- Do until the attribut was not found
-            Manifest manifest = manifests.next();
+            Manifest manifest = loader.getManifest(path);
             java.util.jar.Attributes attr = manifest.getMainAttributes();
             String classnames = attr.getValue("Tiny-Factory");
 
@@ -147,7 +155,7 @@ public class App {
                         list.add(factory);
                         System.out.println("(I) Dynamic Tiny Factory instantiated [" + factory.getFactoryCategory() + "] " + factory.getFactoryName());
                         System.out.flush();
-
+                        origin.put(factory, path);
                     
                     } catch (Exception ex) {
                         System.err.println("(E) Dynamic Tiny Factory " + cla + " :" + ex.getMessage());
@@ -323,6 +331,17 @@ public class App {
         return null;
     }
 
+    /**
+     * Return the origin jar file path or null if not loaded from an external
+     * jar<p>
+     * 
+     * @param f
+     * @return 
+     */
+    public String getFactoryOrigin(TinyFactory f) {
+        return origin.get(f);
+    }
+    
     /**
      * Return the list of the factories or en empty vector if none were
      * present<p>
