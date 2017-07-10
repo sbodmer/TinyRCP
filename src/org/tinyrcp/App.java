@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.jar.Manifest;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -58,11 +60,20 @@ public class App {
     protected DocumentBuilder builder = null;
 
     /**
-     * Store the factory origin file, the key is the factory, the value
-     * the jar containing the factory class
+     * Store the factory origin file, the key is the factory, the value the jar
+     * containing the factory class
      */
     protected HashMap<TinyFactory, String> origin = new HashMap<>();
-    
+
+    /**
+     * The resource bundles<p>
+     *
+     * <PRE>
+     * "App" for the main app bundle
+     * </PRE>
+     */
+    protected HashMap<String, ResourceBundle> bundles = new HashMap<>();
+
     /**
      * Instantiate all the factories here, the configuration of the factories is
      * done late<p>
@@ -78,6 +89,7 @@ public class App {
     public App(JarClassLoader loader, String appName, ArrayList<String> manualFactories) {
         this.loader = loader;
         this.appName = appName;
+        bundles.put("App", ResourceBundle.getBundle("org.tinyrcp.App"));
         appFolder = new File(System.getProperty("user.home"), "." + appName);
         appFolder.getParentFile().mkdirs();
 
@@ -115,16 +127,15 @@ public class App {
                     list.add(factory);
                     System.out.println("(I) Manual Tiny Factory instantiated [" + factory.getFactoryCategory() + "] " + factory.getFactoryName());
                     System.out.flush();
-                    
+
                 } catch (Exception ex) {
                     System.err.println("(E) Manual Tiny Factory " + cla + " :" + ex.getMessage());
                     ex.printStackTrace();
 
-
                 }
             }
         }
-        
+
         //----------------------------------------------------------------------
         //--- Prepare dynamic loaded factories
         //----------------------------------------------------------------------
@@ -132,7 +143,7 @@ public class App {
         //--- Prepare the classes to instantiate
         while (paths.hasNext()) {
             String path = paths.next();
-            
+
             //--- Do until the attribut was not found
             Manifest manifest = loader.getManifest(path);
             java.util.jar.Attributes attr = manifest.getMainAttributes();
@@ -156,7 +167,7 @@ public class App {
                         System.out.println("(I) Dynamic Tiny Factory instantiated [" + factory.getFactoryCategory() + "] " + factory.getFactoryName());
                         System.out.flush();
                         origin.put(factory, path);
-                    
+
                     } catch (Exception ex) {
                         System.err.println("(E) Dynamic Tiny Factory " + cla + " :" + ex.getMessage());
                         ex.printStackTrace();
@@ -181,6 +192,35 @@ public class App {
 
     public File getAppFolder() {
         return appFolder;
+    }
+
+    /**
+     * Returns the translated string (or the key if not found)
+     * <p>
+     *
+     * If the bundle is null, try to search all stored bundles<p>
+     *
+     * @param key
+     * @param bundle
+     * @return
+     */
+    public String getString(String key, String bundle) {
+        try {
+            if (bundle != null) return  bundles.get(bundle).getString(key);
+            Iterator<ResourceBundle> it = bundles.values().iterator();
+            while (it.hasNext()) {
+                try {
+                    return it.next().getString(key);
+                    
+                } catch (MissingResourceException ex) {
+                    
+                }
+            }
+            
+        } catch (MissingResourceException ex) {
+            //---
+        }
+        return key;
     }
 
     /**
@@ -299,8 +339,9 @@ public class App {
 
     /**
      * Add a new factory to the correct category<p>
-     * 
-     * The passed factory should be fully realized (inited and confiugured)<p>
+     *
+     * The passed factory should be fully realized (inited and confiugured)
+     * <p>
      *
      * @param factory
      */
@@ -334,14 +375,14 @@ public class App {
     /**
      * Return the origin jar file path or null if not loaded from an external
      * jar<p>
-     * 
+     *
      * @param f
-     * @return 
+     * @return
      */
     public String getFactoryOrigin(TinyFactory f) {
         return origin.get(f);
     }
-    
+
     /**
      * Return the list of the factories or en empty vector if none were
      * present<p>
