@@ -20,10 +20,12 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
     /**
      *
      */
-    public JTinyFactoryCellRenderer(App app) {
+    public JTinyFactoryCellRenderer(App app, boolean simple) {
         this.app = app;
 
         initComponents();
+        
+        LB_Family.setVisible(!simple);
     }
 
     @Override
@@ -34,7 +36,7 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
         TinyFactory f = (TinyFactory) value;
         LB_Name.setText(f.getFactoryName());
         LB_Family.setText(f.getFactoryFamily());
-        LB_Name.setIcon(f.getFactoryIcon(22));
+        LB_Icon.setIcon(f.getFactoryIcon(22));
         if (isSelected) {
             setBackground(list.getSelectionBackground());
 

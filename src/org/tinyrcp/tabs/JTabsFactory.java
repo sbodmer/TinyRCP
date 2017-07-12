@@ -6,6 +6,7 @@
 package org.tinyrcp.tabs;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import org.tinyrcp.App;
 import org.tinyrcp.TinyFactory;
 import org.tinyrcp.TinyPlugin;
@@ -59,6 +60,11 @@ public class JTabsFactory extends javax.swing.JPanel implements TinyFactory {
         return PLUGIN_FAMILY_CONTAINER;
     }
 
+    @Override
+    public JComponent getFactoryConfigComponent() {
+        return null;
+    }
+    
     @Override
     public void initialize(App app) {
         //---

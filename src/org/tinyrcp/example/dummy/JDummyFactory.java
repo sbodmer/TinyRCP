@@ -7,6 +7,7 @@ package org.tinyrcp.example.dummy;
 
 import org.tinyrcp.tabs.*;
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import org.tinyrcp.App;
 import org.tinyrcp.TinyFactory;
 import org.tinyrcp.TinyPlugin;
@@ -56,6 +57,11 @@ public class JDummyFactory extends javax.swing.JPanel implements TinyFactory {
     @Override
     public String getFactoryFamily() {
         return PLUGIN_FAMILY_PANEL;
+    }
+    
+    @Override
+    public JComponent getFactoryConfigComponent() {
+        return null;
     }
     
     @Override

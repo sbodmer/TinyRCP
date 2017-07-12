@@ -6,6 +6,7 @@
 package org.tinyrcp;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import org.w3c.dom.Element;
 
 /**
@@ -102,6 +103,13 @@ public interface TinyFactory {
      * @return 
      */
     public String getFactoryFamily();
+    
+    /**
+     * Return the global factory component or null if none<p>
+     * 
+     * @return 
+     */
+    public JComponent getFactoryConfigComponent();
     
     /**
      * This method is called once after the factory was instantiated<p>

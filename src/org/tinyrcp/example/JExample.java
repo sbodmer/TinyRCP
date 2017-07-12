@@ -24,6 +24,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.tinyrcp.App;
 import org.tinyrcp.JPluginsFrame;
+import org.tinyrcp.JSettingsFrame;
 import org.tinyrcp.JarClassLoader;
 import org.tinyrcp.TinyFactory;
 import org.tinyrcp.TinyPlugin;
@@ -48,6 +49,7 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
 
     TinyPlugin main = null;
     JPluginsFrame jplugins = null;
+    JSettingsFrame jsettings = null;
     
     /**
      * Creates new form JWorldWindEarth
@@ -61,13 +63,17 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
         MN_Load.addActionListener(this);
         MN_Save.addActionListener(this);
         MN_SaveAs.addActionListener(this);
-
+        MN_Settings.addActionListener(this);
+        
         MN_Exit.addActionListener(this);
 
         MN_Plugins.addActionListener(this);
         
         jplugins = new JPluginsFrame();
         jplugins.initialize(app);
+        
+        jsettings = new JSettingsFrame();
+        jsettings.initialize(app);
     }
 
     //**************************************************************************
@@ -138,6 +144,10 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
             jplugins.setLocationRelativeTo(this);
             jplugins.setVisible(true);
             
+        } else if (e.getActionCommand().equals("settings")) {
+            jsettings.setLocationRelativeTo(this);
+            jsettings.setVisible(true);
+            
         } else if (e.getActionCommand().equals("exit")) {
             close();
 
@@ -160,6 +170,8 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
         MN_Save = new javax.swing.JMenuItem();
         MN_SaveAs = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        MN_Settings = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         MN_Exit = new javax.swing.JMenuItem();
         MN_Tools = new javax.swing.JMenu();
         MN_Plugins = new javax.swing.JMenuItem();
@@ -191,6 +203,11 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
         MN_SaveAs.setActionCommand("saveAs");
         MN_File.add(MN_SaveAs);
         MN_File.add(jSeparator1);
+
+        MN_Settings.setText("Settings");
+        MN_Settings.setActionCommand("settings");
+        MN_File.add(MN_Settings);
+        MN_File.add(jSeparator2);
 
         MN_Exit.setText("Exit");
         MN_Exit.setActionCommand("exit");
@@ -231,8 +248,10 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
     protected javax.swing.JMenuItem MN_Plugins;
     protected javax.swing.JMenuItem MN_Save;
     protected javax.swing.JMenuItem MN_SaveAs;
+    protected javax.swing.JMenuItem MN_Settings;
     protected javax.swing.JMenu MN_Tools;
     protected javax.swing.JPopupMenu.Separator jSeparator1;
+    protected javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
     protected void save(File save) {
@@ -351,6 +370,9 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
 
         jplugins.setVisible(false);
         jplugins.dispose();
+        
+        jsettings.setVisible(false);
+        jsettings.dispose();
         
         setVisible(false);
         dispose();

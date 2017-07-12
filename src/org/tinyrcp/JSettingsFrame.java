@@ -16,8 +16,10 @@
  */
 package org.tinyrcp;
 
+import java.awt.CardLayout;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -25,7 +27,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author sbodmer
  */
-public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionListener {
+public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionListener {
 
     App app = null;
     
@@ -34,7 +36,7 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
     /**
      * Creates new form JPlugins
      */
-    public JPluginsFrame() {
+    public JSettingsFrame() {
         initComponents();
         
         LI_Factories.setModel(model);
@@ -46,12 +48,21 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
     public void initialize(App app) {
         this.app = app;
     
-        LI_Factories.setCellRenderer(new JTinyFactoryCellRenderer(app, false));
+        LI_Factories.setCellRenderer(new JTinyFactoryCellRenderer(app, true));
         ArrayList<TinyFactory> facs = app.getFactories(null);
-        for (int i=0;i<facs.size();i++) model.addElement(facs.get(i));
+        for (int i=0;i<facs.size();i++) {
+            TinyFactory f = facs.get(i);
+            JComponent jcomp = f.getFactoryConfigComponent();
+            if (jcomp != null) {
+                //--- Store the factory hascode as panel key
+                PN_Settings.add(jcomp, ""+f.hashCode());
+                model.addElement(f);
+            }
+        }
         
         LI_Factories.addListSelectionListener(this);
-        if (facs.size() > 0) LI_Factories.setSelectedIndex(0);
+        // if (facs.size() > 0) LI_Factories.setSelectedIndex(0);
+        
     }
     
     //**************************************************************************
@@ -61,25 +72,18 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
     public void valueChanged(ListSelectionEvent e) {
         if (e.getSource() == LI_Factories) {
             if (e.getValueIsAdjusting() == false) {
+                CardLayout layout = (CardLayout) PN_Settings.getLayout();
                 TinyFactory f = LI_Factories.getSelectedValue();
                 if (f != null) {
                     LB_Name.setText(f.getFactoryName());
                     LB_Name.setIcon(f.getFactoryIcon(22));
-                    TP_Description.setText(f.getFactoryDescription());
+                    layout.show(PN_Settings, ""+f.hashCode());
                     
-                    String tmp = (String) f.getProperty(TinyFactory.PROPERTY_VERSION);
-                    LB_Version.setText(tmp==null?"N/A":tmp);
+                } else {
+                    LB_Name.setText("...");
+                    LB_Name.setIcon(null);
                     
-                    tmp = (String) f.getProperty(TinyFactory.PROPERTY_AUTHOR);
-                    LB_Author.setText(tmp==null?"N/A":tmp);
-                    
-                    tmp = (String) f.getProperty(TinyFactory.PROPERTY_LICENCE_TEXT);
-                    TP_Licence.setText(tmp==null?"N/A":tmp);
-                    
-                    tmp = app.getFactoryOrigin(f);
-                    LB_Origin.setText(tmp==null?"N/A":tmp);
-                    
-                    
+                    layout.show(PN_Settings, "empty");
                 }
             }
         }
@@ -95,88 +99,47 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         LB_Name = new javax.swing.JLabel();
-        LB_Author = new javax.swing.JLabel();
-        LB_Origin = new javax.swing.JLabel();
-        LB_Version = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TP_Description = new javax.swing.JTextPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        TP_Licence = new javax.swing.JTextPane();
+        PN_Settings = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         LI_Factories = new javax.swing.JList<>();
 
-        LB_Name.setText("Name");
+        LB_Name.setText("...");
 
-        LB_Author.setText("Author");
+        PN_Settings.setLayout(new java.awt.CardLayout());
 
-        LB_Origin.setText("Origin");
-
-        LB_Version.setText("Version");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(LB_Name)
-                    .addComponent(LB_Author)
-                    .addComponent(LB_Origin)
-                    .addComponent(LB_Version))
-                .addContainerGap(335, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(LB_Name)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LB_Version)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LB_Author)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LB_Origin)
-                .addContainerGap())
-        );
-
-        TP_Description.setContentType("text/html"); // NOI18N
-        jScrollPane2.setViewportView(TP_Description);
-
-        TP_Licence.setContentType("text/html"); // NOI18N
-        jScrollPane3.setViewportView(TP_Licence);
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Choose settings");
+        PN_Settings.add(jLabel1, "empty");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PN_Settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane3))
+                        .addComponent(LB_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 24, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(LB_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PN_Settings, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(400, 480));
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 480));
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 134));
 
@@ -186,11 +149,11 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 250, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         jPanel3Layout.setVerticalGroup(
@@ -210,19 +173,13 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
 
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JLabel LB_Author;
     protected javax.swing.JLabel LB_Name;
-    protected javax.swing.JLabel LB_Origin;
-    protected javax.swing.JLabel LB_Version;
     protected javax.swing.JList<TinyFactory> LI_Factories;
-    protected javax.swing.JTextPane TP_Description;
-    protected javax.swing.JTextPane TP_Licence;
+    protected javax.swing.JPanel PN_Settings;
+    protected javax.swing.JLabel jLabel1;
     protected javax.swing.JPanel jPanel1;
-    protected javax.swing.JPanel jPanel2;
     protected javax.swing.JPanel jPanel3;
     protected javax.swing.JScrollPane jScrollPane1;
-    protected javax.swing.JScrollPane jScrollPane2;
-    protected javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 
     

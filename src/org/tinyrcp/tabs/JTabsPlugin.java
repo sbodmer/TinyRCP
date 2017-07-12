@@ -78,14 +78,14 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
         this.app = app;
 
         MN_Delete.addActionListener(this);
-        
+
         MN_Top.addActionListener(this);
         MN_Left.addActionListener(this);
         MN_Right.addActionListener(this);
         MN_Bottom.addActionListener(this);
-        
-        PU_Factories.add(app.createFactoryMenus("Panels", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_PANEL,this),0);
-        PU_Factories.add(app.createFactoryMenus("Containers", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_CONTAINER,this),1);
+
+        PU_Factories.add(app.createFactoryMenus("Panels", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_PANEL, this), 0);
+        PU_Factories.add(app.createFactoryMenus("Containers", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_CONTAINER, this), 1);
         TAB_Tabs.addMouseListener(this);
     }
 
@@ -93,8 +93,8 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
     public void configure(Element config) {
         if (config == null) return;
 
-        TAB_Tabs.setTabPlacement(config.getAttribute("orientation").equals("")?JTabbedPane.TOP:Integer.parseInt(config.getAttribute("orientation")));
-        
+        TAB_Tabs.setTabPlacement(config.getAttribute("orientation").equals("") ? JTabbedPane.TOP : Integer.parseInt(config.getAttribute("orientation")));
+
         NodeList nl = config.getChildNodes();
         for (int i = 0; i < nl.getLength(); i++) {
             if (nl.item(i).getNodeName().equals("Tab")) {
@@ -115,7 +115,7 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
     @Override
     public void cleanup() {
         TAB_Tabs.removeMouseListener(this);
-        while(TAB_Tabs.getTabCount()>0) {
+        while (TAB_Tabs.getTabCount() > 0) {
             JComponent jcomp = (JComponent) TAB_Tabs.getComponentAt(0);
             TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
             TAB_Tabs.remove(jcomp);
@@ -126,9 +126,9 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
     @Override
     public void saveConfig(Element config) {
         if (config == null) return;
-        
-        config.setAttribute("orientation", ""+TAB_Tabs.getTabPlacement());
-        for (int i=0;i<TAB_Tabs.getTabCount();i++) {
+
+        config.setAttribute("orientation", "" + TAB_Tabs.getTabPlacement());
+        for (int i = 0; i < TAB_Tabs.getTabCount(); i++) {
             JComponent jcomp = (JComponent) TAB_Tabs.getComponentAt(i);
             TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
             Element e = config.getOwnerDocument().createElement("Tab");
@@ -136,7 +136,6 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
             p.saveConfig(e);
             config.appendChild(e);
         }
-        
 
     }
 
@@ -193,25 +192,27 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
             jcomp.putClientProperty("plugin", p);
             TAB_Tabs.addTab(p.getPluginName(), jcomp);
             TAB_Tabs.setSelectedComponent(p.getVisualComponent());
-            
+
         } else if (e.getActionCommand().equals("delete")) {
             JComponent jcomp = (JComponent) TAB_Tabs.getSelectedComponent();
-            TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
-            TAB_Tabs.remove(jcomp);
-            p.cleanup();
+            if (jcomp != null) {
+                TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
+                TAB_Tabs.remove(jcomp);
+                p.cleanup();
+            }
 
         } else if (e.getActionCommand().equals("top")) {
             TAB_Tabs.setTabPlacement(JTabbedPane.TOP);
-            
+
         } else if (e.getActionCommand().equals("left")) {
             TAB_Tabs.setTabPlacement(JTabbedPane.LEFT);
-            
+
         } else if (e.getActionCommand().equals("right")) {
             TAB_Tabs.setTabPlacement(JTabbedPane.RIGHT);
-            
+
         } else if (e.getActionCommand().equals("bottom")) {
             TAB_Tabs.setTabPlacement(JTabbedPane.BOTTOM);
-            
+
         }
     }
 

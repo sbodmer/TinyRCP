@@ -33,6 +33,7 @@ public class JDeskFactory extends javax.swing.JPanel implements TinyFactory {
         return LB_Name.getText();
     }
 
+    @Override
     public String getFactoryDescription() {
         return LB_Description.getText();
     }
@@ -42,6 +43,11 @@ public class JDeskFactory extends javax.swing.JPanel implements TinyFactory {
         return PLUGIN_CATEGORY_PANEL;
     }
 
+    @Override
+    public JComponent getFactoryConfigComponent() {
+        return null;
+    }
+    
     @Override
     public void configure(Element config) {
         //---
