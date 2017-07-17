@@ -39,7 +39,7 @@
                           <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                           <Component id="jPanel2" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" alignment="0" pref="394" max="32767" attributes="0"/>
                       <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -52,7 +52,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="269" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="248" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="218" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -68,13 +68,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="LB_Name" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="LB_Author" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="LB_Origin" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="LB_Version" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="LB_Version" alignment="0" max="-2" attributes="0"/>
+                          <Component id="LB_Name" alignment="0" max="-2" attributes="0"/>
+                          <Component id="LB_Author" alignment="0" max="-2" attributes="0"/>
+                          <Component id="LB_Copyright" alignment="0" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="335" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -87,6 +88,8 @@
                       <Component id="LB_Version" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="LB_Author" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="LB_Copyright" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="LB_Origin" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -113,6 +116,11 @@
             <Component class="javax.swing.JLabel" name="LB_Version">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Version"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="LB_Copyright">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Copyright"/>
               </Properties>
             </Component>
           </SubComponents>

@@ -73,6 +73,9 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
                     tmp = (String) f.getProperty(TinyFactory.PROPERTY_AUTHOR);
                     LB_Author.setText(tmp==null?"N/A":tmp);
                     
+                    tmp = (String) f.getProperty(TinyFactory.PROPERTY_COPYRIGHT_TEXT);
+                    LB_Copyright.setText(tmp==null?"N/A":tmp);
+                    
                     tmp = (String) f.getProperty(TinyFactory.PROPERTY_LICENCE_TEXT);
                     TP_Licence.setText(tmp==null?"N/A":tmp);
                     
@@ -100,6 +103,7 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
         LB_Author = new javax.swing.JLabel();
         LB_Origin = new javax.swing.JLabel();
         LB_Version = new javax.swing.JLabel();
+        LB_Copyright = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TP_Description = new javax.swing.JTextPane();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -116,18 +120,21 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
 
         LB_Version.setText("Version");
 
+        LB_Copyright.setText("Copyright");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(LB_Origin)
+                    .addComponent(LB_Version)
                     .addComponent(LB_Name)
                     .addComponent(LB_Author)
-                    .addComponent(LB_Origin)
-                    .addComponent(LB_Version))
-                .addContainerGap(335, Short.MAX_VALUE))
+                    .addComponent(LB_Copyright))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,6 +145,8 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
                 .addComponent(LB_Version)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LB_Author)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LB_Copyright)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LB_Origin)
                 .addContainerGap())
@@ -158,7 +167,7 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -168,7 +177,7 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -211,6 +220,7 @@ public class JPluginsFrame extends javax.swing.JFrame implements ListSelectionLi
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JLabel LB_Author;
+    protected javax.swing.JLabel LB_Copyright;
     protected javax.swing.JLabel LB_Name;
     protected javax.swing.JLabel LB_Origin;
     protected javax.swing.JLabel LB_Version;

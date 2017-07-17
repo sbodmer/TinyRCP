@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -37,7 +38,6 @@ import org.w3c.dom.NodeList;
  * @author sbodmer
  */
 public class App {
-
     /**
      * Main class loader for all plugins
      */
@@ -74,6 +74,11 @@ public class App {
      */
     protected HashMap<String, ResourceBundle> bundles = new HashMap<>();
 
+    /**
+     * List of interested listener for global evens fired by other coponents
+     */ 
+    protected ArrayList<ActionListener> listeners  = new ArrayList<>();
+    
     /**
      * Instantiate all the factories here, the configuration of the factories is
      * done late<p>
@@ -182,6 +187,23 @@ public class App {
     //**************************************************************************
     //*** API
     //**************************************************************************
+    public void addActionListener(ActionListener listener) {
+        if (!listeners.contains(listener)) listeners.add(listener);
+        
+    }
+    
+    public boolean removeActionListener(ActionListener listener) {
+        return listeners.remove(listener);
+    }
+    
+    /**
+     * Fire the event to all registered action listener
+     * @param evt 
+     */
+    public void fireActionPerformed(ActionEvent evt) {
+        for (int i=0;i<listeners.size();i++) listeners.get(i).actionPerformed(evt);
+    }
+    
     public JarClassLoader getLoader() {
         return loader;
     }
@@ -452,4 +474,5 @@ public class App {
         t.start();
 
     }
+    
 }

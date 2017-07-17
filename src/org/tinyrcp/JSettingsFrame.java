@@ -16,7 +16,6 @@
  */
 package org.tinyrcp;
 
-import java.awt.CardLayout;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
@@ -24,63 +23,65 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
+ * The panel for the factory settings will be called each time the factory is
+ * selected, so it's possible to call TinyFactory.getConfigComponent() from
+ * other component without corrupting this one<p>
  *
+ * The list is settings are created once in the initialize method, no dynamic
+ * factory adding is supported<p>
+ * 
  * @author sbodmer
  */
 public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionListener {
 
     App app = null;
-    
+
     DefaultListModel<TinyFactory> model = new DefaultListModel<>();
-    
+
     /**
      * Creates new form JPlugins
      */
     public JSettingsFrame() {
         initComponents();
-        
+
         LI_Factories.setModel(model);
-        
+
     }
+
     //**************************************************************************
     //*** API
     //**************************************************************************
     public void initialize(App app) {
         this.app = app;
-    
+
         LI_Factories.setCellRenderer(new JTinyFactoryCellRenderer(app, true));
         ArrayList<TinyFactory> facs = app.getFactories(null);
-        for (int i=0;i<facs.size();i++) {
+        for (int i = 0; i < facs.size(); i++) {
             TinyFactory f = facs.get(i);
             JComponent jcomp = f.getFactoryConfigComponent();
-            if (jcomp != null) {
-                //--- Store the factory hascode as panel key
-                PN_Settings.add(jcomp, ""+f.hashCode());
-                model.addElement(f);
-            }
+            if (jcomp != null) model.addElement(f);
+
         }
-        
         LI_Factories.addListSelectionListener(this);
         // if (facs.size() > 0) LI_Factories.setSelectedIndex(0);
-        
+
     }
-    
+
     /**
      * Select the factory
-     * 
-     * @param tiny 
+     *
+     * @param tiny
      */
     public void select(TinyFactory tiny) {
-        for (int i=0;i<model.size();i++) {
+        for (int i = 0; i < model.size(); i++) {
             TinyFactory f = model.get(i);
             if (f == tiny) {
-                CardLayout layout = (CardLayout) PN_Settings.getLayout();
-                layout.show(PN_Settings, ""+f.hashCode());
+                LI_Factories.setSelectedValue(tiny, true);
                 break;
             }
         }
     }
-    
+
     //**************************************************************************
     //*** ListSelectionListener
     //**************************************************************************
@@ -88,23 +89,25 @@ public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionL
     public void valueChanged(ListSelectionEvent e) {
         if (e.getSource() == LI_Factories) {
             if (e.getValueIsAdjusting() == false) {
-                CardLayout layout = (CardLayout) PN_Settings.getLayout();
                 TinyFactory f = LI_Factories.getSelectedValue();
-                if (f != null) {
-                    LB_Name.setText(f.getFactoryName());
-                    LB_Name.setIcon(f.getFactoryIcon(22));
-                    layout.show(PN_Settings, ""+f.hashCode());
-                    
-                } else {
+
+                PN_Settings.removeAll();
+                if (f == null) {
                     LB_Name.setText("...");
                     LB_Name.setIcon(null);
                     
-                    layout.show(PN_Settings, "empty");
+                } else {
+                    JComponent jcomp = f.getFactoryConfigComponent();
+                    PN_Settings.add(jcomp);
+                    PN_Settings.revalidate();
+                    LB_Name.setText(f.getFactoryName());
+                    LB_Name.setIcon(f.getFactoryIcon(22));
                 }
+                PN_Settings.repaint();
             }
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -117,18 +120,13 @@ public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionL
         jPanel1 = new javax.swing.JPanel();
         LB_Name = new javax.swing.JLabel();
         PN_Settings = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         LI_Factories = new javax.swing.JList<>();
 
         LB_Name.setText("...");
 
-        PN_Settings.setLayout(new java.awt.CardLayout());
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Choose settings");
-        PN_Settings.add(jLabel1, "empty");
+        PN_Settings.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -187,16 +185,14 @@ public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionL
         setBounds(0, 0, 810, 630);
     }// </editor-fold>//GEN-END:initComponents
 
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JLabel LB_Name;
     protected javax.swing.JList<TinyFactory> LI_Factories;
     protected javax.swing.JPanel PN_Settings;
-    protected javax.swing.JLabel jLabel1;
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel3;
     protected javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    
 }

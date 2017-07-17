@@ -46,6 +46,17 @@ public interface TinyFactory {
     public static final String PROPERTY_LICENCE_TEXT = "factoryLicenceText";
     
     /**
+     * Some small copyright text<p>
+     * 
+     * String<p>
+     * 
+     * Read only<p>
+     * 
+     * Returns null if none
+     */
+    public static final String PROPERTY_COPYRIGHT_TEXT = "factoryCopyright";
+    
+    /**
      * The author<p>
      * 
      * String<p>
