@@ -65,6 +65,22 @@ public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionL
         
     }
     
+    /**
+     * Select the factory
+     * 
+     * @param tiny 
+     */
+    public void select(TinyFactory tiny) {
+        for (int i=0;i<model.size();i++) {
+            TinyFactory f = model.get(i);
+            if (f == tiny) {
+                CardLayout layout = (CardLayout) PN_Settings.getLayout();
+                layout.show(PN_Settings, ""+f.hashCode());
+                break;
+            }
+        }
+    }
+    
     //**************************************************************************
     //*** ListSelectionListener
     //**************************************************************************
