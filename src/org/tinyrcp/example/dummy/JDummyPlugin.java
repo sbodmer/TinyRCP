@@ -72,7 +72,7 @@ public class JDummyPlugin extends javax.swing.JPanel implements TinyPlugin, Acti
     }
 
     @Override
-    public Object doAction(String message, Object argument) {
+    public Object doAction(String message, Object argument, Object subject) {
         return null;
     }
 

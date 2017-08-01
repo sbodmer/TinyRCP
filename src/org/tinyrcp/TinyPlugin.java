@@ -20,7 +20,7 @@ public interface TinyPlugin {
      *
      * Dimension<p>
      */
-    public static final String DO_ACTION_NEWSIZE = "newSize";
+    public static final String DO_ACTION_NEWSIZE = "org.tinyrcp.newSize";
     
     /**
      * Return the plugin factory instance
@@ -56,9 +56,10 @@ public interface TinyPlugin {
      * 
      * @param message
      * @param argument
+     * @param subject
      * @return 
      */
-    public Object doAction(String message, Object argument);
+    public Object doAction(String message, Object argument, Object subject);
     
     /**
      * Allocate/create resource for the passed configuration

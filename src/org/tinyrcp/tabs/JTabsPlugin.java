@@ -69,7 +69,7 @@ public class JTabsPlugin extends javax.swing.JPanel implements TinyPlugin, Mouse
     }
 
     @Override
-    public Object doAction(String message, Object argument) {
+    public Object doAction(String message, Object argument, Object subject) {
         return null;
     }
 

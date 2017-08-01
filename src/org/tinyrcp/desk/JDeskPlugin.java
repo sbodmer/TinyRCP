@@ -65,7 +65,7 @@ public class JDeskPlugin extends JPanel implements TinyPlugin, ActionListener, I
     }
 
     @Override
-    public Object doAction(String action, Object arguments) {
+    public Object doAction(String action, Object arguments, Object subject) {
         return null;
     }
 
