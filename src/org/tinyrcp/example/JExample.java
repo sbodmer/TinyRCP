@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -50,7 +53,12 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
     TinyPlugin main = null;
     JPluginsFrame jplugins = null;
     JSettingsFrame jsettings = null;
-    
+
+    /**
+     * Currently open frames
+     */
+    ArrayList<JFrame> frames = new ArrayList<>();
+
     /**
      * Creates new form JWorldWindEarth
      */
@@ -64,14 +72,17 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
         MN_Save.addActionListener(this);
         MN_SaveAs.addActionListener(this);
         MN_Settings.addActionListener(this);
-        
+
         MN_Exit.addActionListener(this);
 
         MN_Plugins.addActionListener(this);
-        
+
+        MN_Windows.add(app.createFactoryMenus("Panels", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_PANEL, this), 0);
+        MN_Windows.add(app.createFactoryMenus("Containers", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_CONTAINER, this), 1);
+
         jplugins = new JPluginsFrame();
         jplugins.initialize(app);
-        
+
         jsettings = new JSettingsFrame();
         jsettings.initialize(app);
     }
@@ -119,6 +130,46 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
             main.configure(null);
             repaint();
 
+        } else if (e.getActionCommand().equals("newPlugin")) {
+
+            String title = JOptionPane.showInputDialog(this, "Title");
+            if (title == null) return;
+
+            JMenuItem ji = (JMenuItem) e.getSource();
+            TinyFactory factory = (TinyFactory) ji.getClientProperty("factory");
+            TinyPlugin p = factory.newPlugin(null);
+            p.setup(app, null);
+            p.configure(null);
+            JComponent jcomp = p.getVisualComponent();
+            jcomp.putClientProperty("plugin", p);
+
+            JFrame jframe = new JFrame(title);
+            jframe.getContentPane().add(jcomp);
+            jframe.setSize(640, 480);
+            jframe.setLocationRelativeTo(this);
+            jframe.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            jframe.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent evt) {
+                    JFrame jframe = (JFrame) evt.getWindow();
+                    int rep = JOptionPane.showConfirmDialog(jframe, "Do you really want to close this window ?");
+                    if (rep == JOptionPane.YES_OPTION) {
+                        JComponent jcomp = (JComponent) jframe.getContentPane().getComponent(0);
+                        jframe.remove(jcomp);
+
+                        TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
+                        p.cleanup();
+
+                        jframe.setVisible(false);
+                        jframe.dispose();
+
+                        frames.remove(jframe);
+                    }
+                }
+            });
+            jframe.setVisible(true);
+            frames.add(jframe);
+
         } else if (e.getActionCommand().equals("load")) {
             JFileChooser jf = new JFileChooser(file);
             int rep = jf.showOpenDialog(this);
@@ -143,11 +194,11 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
         } else if (e.getActionCommand().equals("plugins")) {
             jplugins.setLocationRelativeTo(this);
             jplugins.setVisible(true);
-            
+
         } else if (e.getActionCommand().equals("settings")) {
             jsettings.setLocationRelativeTo(this);
             jsettings.setVisible(true);
-            
+
         } else if (e.getActionCommand().equals("exit")) {
             close();
 
@@ -175,6 +226,7 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
         MN_Exit = new javax.swing.JMenuItem();
         MN_Tools = new javax.swing.JMenu();
         MN_Plugins = new javax.swing.JMenuItem();
+        MN_Windows = new javax.swing.JMenu();
         MN_Help = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -223,6 +275,9 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
 
         MB_Topbar.add(MN_Tools);
 
+        MN_Windows.setText("Windows");
+        MB_Topbar.add(MN_Windows);
+
         MN_Help.setText("Help");
         MB_Topbar.add(MN_Help);
 
@@ -250,6 +305,7 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
     protected javax.swing.JMenuItem MN_SaveAs;
     protected javax.swing.JMenuItem MN_Settings;
     protected javax.swing.JMenu MN_Tools;
+    protected javax.swing.JMenu MN_Windows;
     protected javax.swing.JPopupMenu.Separator jSeparator1;
     protected javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
@@ -264,9 +320,32 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
             root.setAttribute("width", "" + getWidth());
             root.setAttribute("height", "" + getHeight());
             app.store(root);
-            Element m = document.createElement("Main");
-            main.saveConfig(m);
-            root.appendChild(m);
+
+            //--- Store the main GUI
+            Element e = document.createElement("Main");
+            main.saveConfig(e);
+            root.appendChild(e);
+
+            //--- Store the open frames
+            for (int i = 0; i < frames.size(); i++) {
+                JFrame jframe = frames.get(i);
+                Element f = document.createElement("Frame");
+                f.setAttribute("title", jframe.getTitle());
+                f.setAttribute("x", "" + jframe.getX());
+                f.setAttribute("y", "" + jframe.getY());
+                f.setAttribute("width", "" + jframe.getWidth());
+                f.setAttribute("height", "" + jframe.getHeight());
+
+                JComponent jcomp = (JComponent) jframe.getContentPane().getComponent(0);
+                TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
+                Element c = document.createElement("Content");
+                c.setAttribute("factory", p.getPluginFactory().getClass().getName());
+                p.saveConfig(c);
+                f.appendChild(c);
+
+                root.appendChild(f);
+            }
+            
             document.appendChild(root);
 
             TransformerFactory tfactory = TransformerFactory.newInstance();
@@ -303,16 +382,16 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
         try {
             FileInputStream in = new FileInputStream(load);
             Document tmp = app.getDocumentBuilder().parse(in);
-                    
+
             root = tmp.getDocumentElement();
             in.close();
 
             //--- The key is the factory class name
             HashMap<String, Element> confs = new HashMap<>();
             Element mainNode = null;
+            ArrayList<Element> windowConfs = new ArrayList<>();
 
             NodeList nl = root.getChildNodes();
-
             //--- Store the configuration nodes
             for (int i = 0; i < nl.getLength(); i++) {
                 if (nl.item(i).getNodeName().equals("Main")) {
@@ -322,10 +401,12 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
                     Element e = (Element) nl.item(i);
                     confs.put(e.getAttribute("class"), e);
 
+                } else if (nl.item(i).getNodeName().equals("Frame")) {
+                    windowConfs.add((Element) nl.item(i));
                 }
             }
 
-            //--- Configure all the factories
+            //--- Configure all the factories first
             ArrayList<TinyFactory> facs = app.getFactories(null);
             for (int i = 0; i < facs.size(); i++) {
                 TinyFactory fac = facs.get(i);
@@ -348,6 +429,63 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
             setLocation(Integer.parseInt(root.getAttribute("x")), Integer.parseInt(root.getAttribute("y")));
             setSize(Integer.parseInt(root.getAttribute("width")), Integer.parseInt(root.getAttribute("height")));
 
+            //--- Open the frames
+            for (int i = 0; i < windowConfs.size(); i++) {
+                Element e = windowConfs.get(i);
+
+                //--- Find the content config
+                Element c = (Element) e.getElementsByTagName("Content").item(0);
+                TinyFactory fac = app.getFactory(c.getAttribute("factory"));
+                if (fac != null) {
+                    TinyPlugin p = fac.newPlugin(null);
+                    p.setup(app, null);
+                    p.configure(c);
+                    jcomp = p.getVisualComponent();
+                    jcomp.putClientProperty("plugin", p);
+
+                    int x = 100;
+                    int y = 100;
+                    int width = 640;
+                    int height = 480;
+                    try {
+                        x = Integer.parseInt(e.getAttribute("x"));
+                        y = Integer.parseInt(e.getAttribute("y"));
+                        width = Integer.parseInt(e.getAttribute("width"));
+                        height = Integer.parseInt(e.getAttribute("height"));
+                        
+                    } catch (NumberFormatException ex) {
+                        //---
+                    }
+                    JFrame jframe = new JFrame(e.getAttribute("title"));
+                    jframe.getContentPane().add(jcomp);
+                    jframe.setSize(width, height);
+                    jframe.setLocation(x, y);
+                    jframe.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    jframe.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosing(java.awt.event.WindowEvent evt) {
+                            JFrame jframe = (JFrame) evt.getWindow();
+                            int rep = JOptionPane.showConfirmDialog(jframe, "Do you really want to close this window ?");
+                            if (rep == JOptionPane.YES_OPTION) {
+                                JComponent jcomp = (JComponent) jframe.getContentPane().getComponent(0);
+                                jframe.remove(jcomp);
+
+                                TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
+                                p.cleanup();
+
+                                jframe.setVisible(false);
+                                jframe.dispose();
+
+                                frames.remove(jframe);
+                            }
+                        }
+                    });
+                    jframe.setVisible(true);
+                    frames.add(jframe);
+                }
+
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
 
@@ -368,17 +506,32 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
             //---
         }
 
+        //--- Clear  all opened frames
+        for (int i = 0; i < frames.size(); i++) {
+            JFrame jframe = frames.get(i);
+            JComponent jcomp = (JComponent) jframe.getContentPane().getComponent(0);
+            jframe.remove(jcomp);
+
+            TinyPlugin p = (TinyPlugin) jcomp.getClientProperty("plugin");
+            p.cleanup();
+
+            jframe.setVisible(false);
+            jframe.dispose();
+        }
+        frames.clear();
+
         jplugins.setVisible(false);
         jplugins.dispose();
-        
+
         jsettings.setVisible(false);
         jsettings.dispose();
-        
+
         setVisible(false);
         dispose();
 
         /*
-        //--- Clear all opened frames
+        //--- Clear all opened frames, this one will use the default events
+        //--- but some frame could ask some feed back, so do not use it here
         Window frames[] = Window.getWindows();
         for (int i = 0; i < frames.length; i++) {
             if (frames[i] == this) continue;
@@ -422,7 +575,7 @@ public class JExample extends javax.swing.JFrame implements ActionListener {
                 //--- Prepare main resource singleton
                 App app = new App(loader, "TinyTCP Example App", null);
                 app.initialize();
-                
+
                 //--- Main frame
                 JExample jframe = new JExample(app);
                 jframe.open();
