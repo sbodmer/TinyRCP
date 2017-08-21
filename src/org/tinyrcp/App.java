@@ -430,6 +430,13 @@ public class App {
         return fac;
     }
 
+    public ArrayList<TinyFactory> getFactories(String category, String family) {
+        ArrayList<TinyFactory> fac = new ArrayList<>();
+        ArrayList<TinyFactory> facs = getFactories(category);
+        for (TinyFactory f: facs) if (f.getFactoryFamily().equals(family)) fac.add(f);
+        return fac;
+    }
+    
     static public void showScreenIdentifiers() {
         //--- Try to find the selected graphics device
         final ArrayList<JFrame> frames = new ArrayList<JFrame>();

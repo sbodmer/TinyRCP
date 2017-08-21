@@ -2,7 +2,7 @@
 Small GUI Java framework to create simple Swing visual interfaces.
 
 ## Architecture
-The framework is complelty modular and plugin based.
+The framework is compleltly modular and plugin based.
 
 Each component is stored in a jar file with a specific manifest entry.
 
@@ -12,7 +12,10 @@ during the app creation
     {project}/lib/ext
 
 ## Features
-TODO
+The built in components are
+
+* Containers (tabs, desktop)
+* ...
 
 ## Release
 Work in progress...
@@ -28,13 +31,6 @@ To run the example application
     cd dist
     java -jar ExampleApp.jar
 
-
-# Components
-The built in components are
-
-* Containers (tabs, desktop)
-* ... 
-
 # Developers guide
 The components and main application frame are all stored in jar archives as plugins
 in a defined folder on your file system.
@@ -45,6 +41,62 @@ Check the example application files for more informations
 
     org/tinyrcp/example
     app/
+
+## Components
+Each component must be composed of
+
+- A factory
+- A plugin
+- A  jar containing the classes, libraries and resources of the component
+
+Each component is attached to a 
+
+- Category
+- Family
+
+### Factories
+The factory is the entry point of you component/plugin.
+Each factory will be instantiated when the application is started
+ 
+The factory must implement the interface
+
+    org.tinyrcp.TinyFactory
+
+Here are some description of the TinyFactory interface
+
+#### public String getFactoryCategory();
+Determine the category of the plugin (gui, ...)
+    
+    PLUGIN_CATEGORY_PANEL
+        For visual components
+
+
+#### public String getFactoryFamily();
+Determine the family within the category
+
+    PLUGIN_FAMILY_CONTAINER
+        Visual panel containers (contains other component)
+
+    PLUGIN_FAMILY_PANEL
+        A basic visual panel
+
+#### public TinyPlugin newPlugin(Object argument);
+Return the new plugin instance
+    
+    The passed argument can be specific for each factory
+
+### Plugin
+Each factory will produce a plugin instance when needed
+
+## Jar
+To add a plugin simply create a jar files in the /lib/ext folder with the manifest entry
+
+    Tiny-Factory: {full qualified class name of the factory}
+
+The class must implement the interface below
+
+    org.tinyrcp.TinyFactory
+
 
 ## Application boot
 The entry point of your app should be loaded by the default class loader (for
@@ -68,6 +120,7 @@ The boot process consist of
 Here is an example of your main entry point (which is loaded by the system
 class loader)
 
+<code>
     public class ExampleApp {
 
         /**
@@ -98,7 +151,7 @@ class loader)
 
         }
     }
-
+</code>
 
 ## Main application frame
 The main application frame to start is defined in the manifest entry
@@ -108,12 +161,3 @@ The main application frame to start is defined in the manifest entry
 The stored jar will be loaded by the tinyrcp custom class loader and then the
 main method of the class will be called with all the passed arguments from the
 boot process
-
-## Plugins
-To add a plugin simply create a jar files in the /lib/ext folder with the manifest entry
-
-    Tiny-Factory: {full qualified class name of the factory}
-
-The class must implement the interface below
-
-    org.tinyrcp.TinyFactory

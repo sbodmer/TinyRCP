@@ -14,10 +14,12 @@ import org.w3c.dom.Element;
  * @author sbodmer
  */
 public interface TinyFactory {
-    static final String PLUGIN_CATEGORY_PANEL = "panel";
+    static final String PLUGIN_CATEGORY_PANEL       = "panel";
+    static final String PLUGIN_CATEGORY_COMPONENT   = "component";
     
     static final String PLUGIN_FAMILY_CONTAINER = "panel,container";
     static final String PLUGIN_FAMILY_PANEL     = "panel,panel";
+    static final String PLUGIN_FAMILY_COMPONENT = "component,component";
     
     /**
      * The wanted icon size (22x22)
@@ -101,7 +103,7 @@ public interface TinyFactory {
     public String getFactoryDescription();
     
     /**
-     * Returns the category of the plugin factory (used to detemine in which context
+     * Returns the category of the plugin factory (used to determine in which context
      * expose this factory)<p>
      * 
      * @return 
