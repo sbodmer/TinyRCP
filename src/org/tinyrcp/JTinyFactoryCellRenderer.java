@@ -35,7 +35,7 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
         
         TinyFactory f = (TinyFactory) value;
         LB_Name.setText(f.getFactoryName());
-        LB_Family.setText(f.getFactoryFamily());
+        LB_Family.setText(f.getFactoryCategory()+","+f.getFactoryFamily());
         LB_Icon.setIcon(f.getFactoryIcon(22));
         if (isSelected) {
             setBackground(list.getSelectionBackground());

@@ -17,9 +17,9 @@ public interface TinyFactory {
     static final String PLUGIN_CATEGORY_PANEL       = "panel";
     static final String PLUGIN_CATEGORY_COMPONENT   = "component";
     
-    static final String PLUGIN_FAMILY_CONTAINER = "panel,container";
-    static final String PLUGIN_FAMILY_PANEL     = "panel,panel";
-    static final String PLUGIN_FAMILY_COMPONENT = "component,component";
+    static final String PLUGIN_FAMILY_CONTAINER = "container";
+    static final String PLUGIN_FAMILY_PANEL     = "panel";
+    static final String PLUGIN_FAMILY_COMPONENT = "component";
     
     /**
      * The wanted icon size (22x22)
