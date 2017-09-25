@@ -100,6 +100,7 @@ public class JDummyFactory extends javax.swing.JPanel implements TinyFactory {
         LB_Name = new javax.swing.JLabel();
         LB_Description = new javax.swing.JLabel();
 
+        LB_Name.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/example/dummy/Resources/Icons/22x22/dummy.png"))); // NOI18N
         LB_Name.setText("Dummy example panel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

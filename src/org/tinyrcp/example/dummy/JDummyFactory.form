@@ -4,6 +4,9 @@
   <NonVisualComponents>
     <Component class="javax.swing.JLabel" name="LB_Name">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/org/tinyrcp/example/dummy/Resources/Icons/22x22/dummy.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Dummy example panel"/>
       </Properties>
     </Component>
