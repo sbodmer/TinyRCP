@@ -88,6 +88,11 @@ public class JDummyFactory extends javax.swing.JPanel implements TinyFactory {
     public Object getProperty(String property) {
         return null;
     }
+    
+    @Override
+    public boolean doesFactorySupport(Object obj) {
+        return false;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

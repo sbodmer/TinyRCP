@@ -118,6 +118,16 @@ public interface TinyFactory {
     public String getFactoryFamily();
     
     /**
+     * Additional check of the factory capabilities
+     * 
+     * The passed object could be anything, return true if supported
+     * 
+     * @param obj
+     * @return 
+     */
+    public boolean doesFactorySupport(Object obj);
+    
+    /**
      * Return the global factory component or null if none<p>
      * 
      * @return 

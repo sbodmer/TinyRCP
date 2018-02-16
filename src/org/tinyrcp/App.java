@@ -290,6 +290,29 @@ public class App {
         return jmenu;
 
     }
+    
+    public JMenu createFactoryMenus(String title, String category, String family, Object support, ActionListener listener) {
+        JMenu jmenu = new JMenu(title);
+        // jmenu.setFont(new Font("Arial", 0, 11));
+        jmenu.setActionCommand("menu");
+        ArrayList<TinyFactory> facs = getFactories(category);
+        for (int i = 0; i < facs.size(); i++) {
+            TinyFactory factory = facs.get(i);
+            if ((family != null) && !factory.getFactoryFamily().equals(family)) continue;
+            if (!factory.doesFactorySupport(support)) continue;
+            //--- create menu
+            JMenuItem jitem = new JMenuItem(factory.getFactoryName());
+            jitem.setIcon(factory.getFactoryIcon(TinyFactory.ICON_SIZE_NORMAL));
+            // jitem.setFont(new java.awt.Font("Arial", 0, 11));
+            jitem.setActionCommand("newPlugin");
+            jitem.putClientProperty("factory", factory);
+            jitem.addActionListener(listener);
+            jmenu.add(jitem);
+
+        }
+        return jmenu;
+
+    }
 
     /**
      * Initilaize the factories
