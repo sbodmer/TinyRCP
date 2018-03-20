@@ -98,7 +98,7 @@ public class JTabsFactory extends javax.swing.JPanel implements TinyFactory {
 
     @Override
     public boolean doesFactorySupport(Object obj) {
-        return false;
+        return true;
     }
     
     /**

@@ -72,6 +72,7 @@ public class JDeskFactory extends javax.swing.JPanel implements TinyFactory {
         return null;
     }
 
+    @Override
     public TinyPlugin newPlugin(Object arg) {
         return new JDeskPlugin(this);
     }
@@ -88,7 +89,7 @@ public class JDeskFactory extends javax.swing.JPanel implements TinyFactory {
 
     @Override
     public boolean doesFactorySupport(Object obj) {
-        return false;
+        return true;
     }
     
     /**
