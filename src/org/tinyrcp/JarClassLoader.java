@@ -145,7 +145,7 @@ public class JarClassLoader extends URLClassLoader {
     /**
      * In memory jar file
      * 
-     * @param path The file path for the passed imagte
+     * @param path The file path for the passed image
      * @param image The jar image
      */
     public void addJar(String path, byte image[]) {
