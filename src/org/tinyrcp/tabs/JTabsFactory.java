@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
  * @author sbodmer
  */
 public class JTabsFactory extends javax.swing.JPanel implements TinyFactory {
-    final String AUTHOR = "Stephan Bodmer (sbodmer@lsi-media.ch)";
+    final String AUTHOR = "Stephan Bodmer (sbodmer@les-studios-inexistants.ch)";
     final String VERSION = "1.0.0.0";
     
     /**

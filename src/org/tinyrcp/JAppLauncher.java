@@ -34,14 +34,12 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
     //*** API
     //**************************************************************************
     /**
-     * Set a custom componenent in the center
+     * Set a custom component in the center
      * 
      * @param jcomp 
      */
     public void setAppCustomPanel(JComponent jcomp) {
-        
         Dimension size = getSize();
-        
         Dimension pref = jcomp.getPreferredSize();
         Dimension dim = new Dimension((int) pref.getWidth(), (int) (pref.getHeight()+getPreferredSize().height));
         PN_Center.add(jcomp, BorderLayout.CENTER);
@@ -49,7 +47,6 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
         setPreferredSize(dim);
         revalidate();
         
-        System.out.println("PREF:"+getPreferredSize());
     }
     
     /**
