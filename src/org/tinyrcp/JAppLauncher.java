@@ -127,6 +127,7 @@ public class JAppLauncher extends javax.swing.JFrame implements AppLauncher.AppB
 
         getContentPane().add(PN_Bottom, java.awt.BorderLayout.SOUTH);
 
+        LB_Title.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         LB_Title.setText("Launching application");
         PN_Top.add(LB_Title);
 
