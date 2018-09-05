@@ -240,7 +240,7 @@ public class JarClassLoader extends URLClassLoader {
     //**************************************************************************
     @Override
     public URL getResource(String name) {
-        System.out.println("Searching:" + name);
+        // System.out.println("Searching:" + name);
         try {
             File f = resources.get(name);
             if (f != null) return f.toURI().toURL();
