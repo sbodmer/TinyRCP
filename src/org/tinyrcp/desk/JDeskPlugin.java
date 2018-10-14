@@ -155,7 +155,7 @@ public class JDeskPlugin extends JPanel implements TinyPlugin, ActionListener, I
                 if (factory != null) {
                     TinyPlugin p = factory.newPlugin(null);
                     p.setup(app, null);
-                    p.configure(null);
+                    p.configure(inf);
                     
                     JInternalFrame jiframe = new JInternalFrame(inf.getAttribute("name"));
                     jiframe.setFont(new Font("Arial", 0, 11));

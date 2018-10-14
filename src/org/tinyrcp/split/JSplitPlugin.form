@@ -10,18 +10,6 @@
       <SubComponents>
         <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
         </Component>
-        <MenuItem class="javax.swing.JMenuItem" name="MN_Delete">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Delete"/>
-            <Property name="actionCommand" type="java.lang.String" value="delete"/>
-          </Properties>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="MN_Rename">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Rename"/>
-            <Property name="actionCommand" type="java.lang.String" value="rename"/>
-          </Properties>
-        </MenuItem>
         <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
         </Component>
         <Menu class="javax.swing.JMenu" name="MN_Orientation">
@@ -29,41 +17,23 @@
             <Property name="text" type="java.lang.String" value="Orientation"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Top">
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Horizontal">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="BTG_TabOrientation"/>
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Top"/>
-                <Property name="actionCommand" type="java.lang.String" value="top"/>
+                <Property name="text" type="java.lang.String" value="Horizontal"/>
+                <Property name="actionCommand" type="java.lang.String" value="horizontal"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Left">
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Vertical">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="BTG_TabOrientation"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Left"/>
-                <Property name="actionCommand" type="java.lang.String" value="left"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Right">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="BTG_TabOrientation"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Right"/>
-                <Property name="actionCommand" type="java.lang.String" value="right"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="MN_Bottom">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="BTG_TabOrientation"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Bottom"/>
-                <Property name="actionCommand" type="java.lang.String" value="bottom"/>
+                <Property name="text" type="java.lang.String" value="Vertical"/>
+                <Property name="actionCommand" type="java.lang.String" value="vertical"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -88,14 +58,17 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Container class="javax.swing.JTabbedPane" name="TAB_Tabs">
+    <Container class="javax.swing.JSplitPane" name="SP_Main">
+      <Properties>
+        <Property name="dividerLocation" type="int" value="300"/>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="Center"/>
         </Constraint>
       </Constraints>
 
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
     </Container>
   </SubComponents>
 </Form>

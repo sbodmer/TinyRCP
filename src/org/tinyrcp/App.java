@@ -25,6 +25,8 @@ import javax.swing.JMenuItem;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.tinyrcp.desk.JDeskFactory;
+import org.tinyrcp.grid.JGridFactory;
+import org.tinyrcp.split.JSplitFactory;
 import org.tinyrcp.tabs.JTabsFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -80,6 +82,11 @@ public class App {
     protected ArrayList<ActionListener> listeners  = new ArrayList<>();
     
     /**
+     * Simple storage
+     */
+    protected HashMap<String, Object> storage = new HashMap<>();
+    
+    /**
      * Instantiate all the factories here, the configuration of the factories is
      * done late<p>
      *
@@ -112,6 +119,8 @@ public class App {
         ArrayList<TinyFactory> list = new ArrayList<>();
         list.add(new JTabsFactory());
         list.add(new JDeskFactory());
+        list.add(new JSplitFactory());
+        list.add(new JGridFactory());
         factories.put(TinyFactory.PLUGIN_CATEGORY_PANEL, list);
 
         //----------------------------------------------------------------------
@@ -196,6 +205,31 @@ public class App {
         return listeners.remove(listener);
     }
     
+    /**
+     * Store an arbitrary data object
+     * 
+     * @param key
+     * @param obj
+     * @return 
+     */
+    public Object storeData(String key, Object obj) {
+        return storage.put(key, obj);
+        
+    }
+    
+    public Object fetchData(String key) {
+        return storage.get(key);
+    }
+    
+    /**
+     * Remove an arbitrary stored object
+     * 
+     * @param key
+     * @return 
+     */
+    public Object removeData(String key) {
+        return storage.remove(key);
+    }
     /**
      * Fire the event to all registered action listener
      * @param evt 

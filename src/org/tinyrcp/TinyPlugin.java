@@ -35,6 +35,7 @@ public interface TinyPlugin {
      * @return 
      */
     public String getPluginName();
+    
     public void setPluginName(String name);
     
     /**

@@ -2,7 +2,7 @@
 Small GUI Java framework to create simple Swing visual interfaces.
 
 ## Architecture
-The framework is compleltly modular and plugin based.
+The framework is modular and plugin based.
 
 Each component is stored in a jar file with a specific manifest entry.
 
@@ -14,8 +14,7 @@ during the app creation
 ## Features
 The built in components are
 
-* Containers (tabs, desktop)
-* ...
+* Containers (tabs, desktop, split, grid)
 
 ## Release
 Work in progress...
@@ -47,7 +46,7 @@ Each component must be composed of
 
 - A factory
 - A plugin
-- A  jar containing the classes, libraries and resources of the component
+- A jar containing the classes, libraries and resources of the component
 
 Each component is attached to a 
 
