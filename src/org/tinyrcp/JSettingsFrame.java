@@ -138,7 +138,7 @@ public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionL
                     .addComponent(PN_Settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(LB_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 24, Short.MAX_VALUE)))
+                        .addGap(0, 248, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -182,7 +182,7 @@ public class JSettingsFrame extends javax.swing.JFrame implements ListSelectionL
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.WEST);
 
-        setBounds(0, 0, 810, 630);
+        setBounds(0, 0, 1024, 641);
     }// </editor-fold>//GEN-END:initComponents
 
 

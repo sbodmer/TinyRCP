@@ -142,7 +142,7 @@ public interface TinyFactory {
     public void initialize(App app);
     
     /**
-     * Is called after the factory was instantiated ans initilaized<p>
+     * Is called after the factory was instantiated ans initilized<p>
      * 
      * This method can be called multiple times, but it's called at least
      * once<p>
