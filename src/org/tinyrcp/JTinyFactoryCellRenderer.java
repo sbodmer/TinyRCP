@@ -41,7 +41,7 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
             setBackground(list.getSelectionBackground());
 
         } else {
-            setBackground(Color.white);
+            setBackground(list.getBackground());
         }
         return this;
     }
