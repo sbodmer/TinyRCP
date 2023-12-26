@@ -52,6 +52,12 @@ public class App {
     protected File appFolder = null;
     protected String appName = "application";
 
+    /*
+     * Icon color for light (52, 73, 94);
+     * Icon color for dark (187, 187, 187);
+    */
+    protected boolean darkLaf = false;
+    
     /**
      * List of all found factories grouped by category (extracted from manifest)
      */
@@ -204,6 +210,14 @@ public class App {
     
     public boolean removeActionListener(ActionListener listener) {
         return listeners.remove(listener);
+    }
+    
+    public void setDarkLaf(boolean dark) {
+        this.darkLaf = dark;
+    }
+    
+    public boolean isDarkLaf() {
+        return darkLaf;
     }
     
     /**

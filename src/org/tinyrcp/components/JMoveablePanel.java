@@ -133,7 +133,6 @@ public class JMoveablePanel extends javax.swing.JPanel implements MouseListener,
 
         setLayout(new java.awt.BorderLayout());
 
-        PN_Top.setBackground(java.awt.Color.lightGray);
         PN_Top.setLayout(new java.awt.BorderLayout());
 
         LB_Title.setBackground(java.awt.Color.lightGray);

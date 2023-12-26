@@ -17,11 +17,6 @@
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="PN_Top">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="80" green="80" id="gray" palette="1" red="80" type="palette"/>
-        </Property>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="North"/>
@@ -43,7 +38,7 @@
         <Component class="javax.swing.JButton" name="BT_Close">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/tinyrcp/Resources/Icons/16x16/window-close.png"/>
+              <Image iconType="3" name="/org/tinyrcp/Resources/Icons/16x16/close_light.png"/>
             </Property>
             <Property name="actionCommand" type="java.lang.String" value="close"/>
             <Property name="borderPainted" type="boolean" value="false"/>
@@ -61,7 +56,7 @@
         <Component class="javax.swing.JButton" name="BT_Rename">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/tinyrcp/Resources/Icons/16x16/edit.png"/>
+              <Image iconType="3" name="/org/tinyrcp/Resources/Icons/16x16/edit_light.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Rename"/>
             <Property name="actionCommand" type="java.lang.String" value="rename"/>

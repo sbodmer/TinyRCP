@@ -111,6 +111,9 @@ public class JGridPlugin extends JPanel implements TinyPlugin, ActionListener, C
         jmenu = app.createFactoryMenus("Container", TinyFactory.PLUGIN_CATEGORY_PANEL, TinyFactory.PLUGIN_FAMILY_CONTAINER, this);
         PU_Panels.add(jmenu, 0);
 
+        //--- Set correct laf
+        updateUI();
+         
         BT_More.addActionListener(this);
         SP_Columns.addChangeListener(this);
     }
@@ -163,7 +166,7 @@ public class JGridPlugin extends JPanel implements TinyPlugin, ActionListener, C
                     p.setup(app, null);
                     p.configure(e);
 
-                    JGridCell jgc = new JGridCell(p, e.getAttribute("title"), this);
+                    JGridCell jgc = new JGridCell(p, e.getAttribute("title"), this, app);
                     PN_Cells.add(jgc);
                 }
 
@@ -190,7 +193,7 @@ public class JGridPlugin extends JPanel implements TinyPlugin, ActionListener, C
                 p.setup(app, null);
                 p.configure(null);
 
-                JGridCell jgc = new JGridCell(p, name, this);
+                JGridCell jgc = new JGridCell(p, name, this, app);
                 PN_Cells.add(jgc);
                 PN_Cells.revalidate();
             }
@@ -242,7 +245,7 @@ public class JGridPlugin extends JPanel implements TinyPlugin, ActionListener, C
         PN_Top.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         BT_More.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        BT_More.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/down.png"))); // NOI18N
+        BT_More.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/hamburger_light.png"))); // NOI18N
         BT_More.setActionCommand("more");
         BT_More.setPreferredSize(new java.awt.Dimension(32, 32));
         PN_Top.add(BT_More);
@@ -252,11 +255,21 @@ public class JGridPlugin extends JPanel implements TinyPlugin, ActionListener, C
 
         add(PN_Top, java.awt.BorderLayout.NORTH);
 
-        PN_Cells.setBackground(java.awt.Color.lightGray);
         PN_Cells.setLayout(new java.awt.GridLayout(0, 1));
         add(PN_Cells, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
+    public void updateUI() {
+        if (app == null) return;
+        
+        if (app.isDarkLaf()) {
+            BT_More.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/hamburger_dark.png"))); 
+            
+        } else {
+            BT_More.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/hamburger_light.png"))); 
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton BT_More;
     public javax.swing.JPanel PN_Cells;

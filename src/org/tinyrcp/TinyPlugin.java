@@ -69,7 +69,7 @@ public interface TinyPlugin {
      * @param argument
      */
     public void setup(App app, Object argument);
-    
+     
     /**
      * Configure the plugin, this method can be called multiple times<p>
      * 

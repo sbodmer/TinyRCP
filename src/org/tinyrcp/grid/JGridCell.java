@@ -20,6 +20,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import org.tinyrcp.App;
 import org.tinyrcp.TinyPlugin;
 
 /**
@@ -30,17 +32,21 @@ public class JGridCell extends javax.swing.JPanel implements ActionListener {
 
     TinyPlugin plugin = null;
     ActionListener listener = null;
+    App app = null;
 
     /**
      * Creates new form JGridCell
      */
-    public JGridCell(TinyPlugin plugin, String title, ActionListener listener) {
+    public JGridCell(TinyPlugin plugin, String title, ActionListener listener, App app) {
         this.plugin = plugin;
         this.listener = listener;
-
+        this.app = app;
+        
         initComponents();
         add(plugin.getVisualComponent(), BorderLayout.CENTER);
         LB_Title.setText(title);
+
+        updateUI();
 
         BT_Close.addActionListener(this);
         BT_Rename.addActionListener(this);
@@ -57,7 +63,7 @@ public class JGridCell extends javax.swing.JPanel implements ActionListener {
     public String getTitle() {
         return LB_Title.getText().trim();
     }
-    
+
     //**************************************************************************
     //*** ActionListener
     //**************************************************************************
@@ -73,6 +79,22 @@ public class JGridCell extends javax.swing.JPanel implements ActionListener {
             if (name != null) {
                 LB_Title.setText(name);
             }
+        }
+    }
+
+    @Override
+    public void updateUI() {
+        if (app == null) return;
+        if (app.isDarkLaf()) {
+            if (PN_Top != null) PN_Top.setBackground(UIManager.getColor("Panel.background").brighter());
+            if (BT_Rename != null) BT_Rename.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/edit_dark.png"))); 
+            if (BT_Close != null) BT_Close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/close_dark.png"))); 
+            
+            
+        } else {
+            if (PN_Top != null) PN_Top.setBackground(UIManager.getColor("Panel.background").darker());
+            if (BT_Rename != null) BT_Rename.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/edit_light.png")));
+            if (BT_Close != null) BT_Close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/close_light.png"))); 
         }
     }
 
@@ -92,20 +114,19 @@ public class JGridCell extends javax.swing.JPanel implements ActionListener {
 
         setLayout(new java.awt.BorderLayout());
 
-        PN_Top.setBackground(java.awt.Color.gray);
         PN_Top.setLayout(new java.awt.BorderLayout());
 
         LB_Title.setText("...");
         PN_Top.add(LB_Title, java.awt.BorderLayout.CENTER);
 
-        BT_Close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/window-close.png"))); // NOI18N
+        BT_Close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/close_light.png"))); // NOI18N
         BT_Close.setActionCommand("close");
         BT_Close.setBorderPainted(false);
         BT_Close.setContentAreaFilled(false);
         BT_Close.setPreferredSize(new java.awt.Dimension(28, 28));
         PN_Top.add(BT_Close, java.awt.BorderLayout.EAST);
 
-        BT_Rename.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/edit.png"))); // NOI18N
+        BT_Rename.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/tinyrcp/Resources/Icons/16x16/edit_light.png"))); // NOI18N
         BT_Rename.setToolTipText("Rename");
         BT_Rename.setActionCommand("rename");
         BT_Rename.setBorderPainted(false);

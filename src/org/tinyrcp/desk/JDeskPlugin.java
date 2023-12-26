@@ -288,7 +288,6 @@ public class JDeskPlugin extends JPanel implements TinyPlugin, ActionListener, I
 
         setLayout(new java.awt.BorderLayout());
 
-        DT_Desktop.setBackground(new java.awt.Color(204, 204, 255));
         DT_Desktop.setDoubleBuffered(true);
         DT_Desktop.setPreferredSize(new java.awt.Dimension(640, 480));
         DT_Desktop.addMouseListener(new java.awt.event.MouseAdapter() {
