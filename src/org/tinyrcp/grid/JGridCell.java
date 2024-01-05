@@ -112,6 +112,7 @@ public class JGridCell extends javax.swing.JPanel implements ActionListener {
         BT_Close = new javax.swing.JButton();
         BT_Rename = new javax.swing.JButton();
 
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setLayout(new java.awt.BorderLayout());
 
         PN_Top.setLayout(new java.awt.BorderLayout());
