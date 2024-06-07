@@ -129,7 +129,8 @@ public class AppLauncher {
 
                     try {
                         //--- Create the instance of the main class
-                        System.setSecurityManager(null);    //--- Disable custom classloader security (avoid the JavaAppletWindow text)
+                        //--- Security Manger is dprecated
+                        // System.setSecurityManager(null);    //--- Disable custom classloader security (avoid the JavaAppletWindow text)
                         // Thread.currentThread().setContextClassLoader(loader);
                         Class cl = Class.forName(mainClass, true, loader);
                         Class cls[] = {String[].class};

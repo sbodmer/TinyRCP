@@ -13,19 +13,18 @@ import javax.swing.table.*;
  *
  * @author sbodmer
  */
-public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements ListCellRenderer, TableCellRenderer {
+public class JTinyPluginCellRenderer extends javax.swing.JPanel implements ListCellRenderer, TableCellRenderer {
 
     App app = null;
 
     /**
      *
      */
-    public JTinyFactoryCellRenderer(App app, boolean simple) {
+    public JTinyPluginCellRenderer(App app) {
         this.app = app;
 
         initComponents();
-        
-        LB_Family.setVisible(!simple);
+       
     }
 
     @Override
@@ -33,10 +32,9 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
         // Color fg = isSelected?list.getSelectionForeground():list.getForeground();
         // setForeground(fg);
         
-        TinyFactory f = (TinyFactory) value;
-        LB_Name.setText(f.getFactoryName());
-        LB_Family.setText(f.getFactoryCategory()+","+f.getFactoryFamily());
-        LB_Icon.setIcon(f.getFactoryIcon(22));
+        TinyPlugin f = (TinyPlugin) value;
+        LB_Name.setText(f.getPluginName());
+        LB_Icon.setIcon(f.getPluginFactory().getFactoryIcon(22));
         if (isSelected) {
             setBackground(list.getSelectionBackground());
 
@@ -48,10 +46,9 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
     
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        TinyFactory f = (TinyFactory) value;
-        LB_Name.setText(f.getFactoryName());
-        LB_Family.setText(f.getFactoryCategory()+","+f.getFactoryFamily());
-        LB_Icon.setIcon(f.getFactoryIcon(22));
+        TinyPlugin f = (TinyPlugin) value;
+        LB_Name.setText(f.getPluginName());
+        LB_Icon.setIcon(f.getPluginFactory().getFactoryIcon(22));
         if (isSelected) {
             setBackground(table.getSelectionBackground());
 
@@ -71,7 +68,6 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
 
         LB_Icon = new javax.swing.JLabel();
         LB_Name = new javax.swing.JLabel();
-        LB_Family = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -85,15 +81,10 @@ public class JTinyFactoryCellRenderer extends javax.swing.JPanel implements List
         LB_Name.setText("Name");
         LB_Name.setMinimumSize(new java.awt.Dimension(0, 10));
         add(LB_Name, java.awt.BorderLayout.CENTER);
-
-        LB_Family.setText("Family");
-        LB_Family.setMinimumSize(new java.awt.Dimension(0, 10));
-        add(LB_Family, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LB_Family;
     private javax.swing.JLabel LB_Icon;
     private javax.swing.JLabel LB_Name;
     // End of variables declaration//GEN-END:variables
